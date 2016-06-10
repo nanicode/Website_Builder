@@ -80,27 +80,7 @@ $(document).ready(function(){
 	
 		$("."+mm).remove();
 
-	
 	}
-	});
-
-$(".0").click(function(){
-		alert("ADca");
-		var pos=$(this).position();
-		var button_group='<div class="btn-group" style="position:absolute;top:'+(pos.top-20)+'px;right:'+(pos.left+30)+'px;">\
-  <button type="button" class="btn btn-primary">Apple</button>\
-  <button type="button" class="btn btn-primary">Samsung</button>\
-  <div class="btn-group">\
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\
-    Sony <span class="caret"></span></button>\
-    <ul class="dropdown-menu" role="menu">\
-      <li><a href="#">Tablet</a></li>\
-      <li><a href="#">Smartphone</a></li>\
-    </ul>\
-  </div>\
-</div>';
-$("body").append(button_group);
-
 	});
 
 	$('.text-small-heading').click(function(){
@@ -244,47 +224,40 @@ $("body").append(button_group);
 		$("#bgimage").click(function(){
 			$("#fileinput1").click();
 		});
-/*$(document).ready(function(){
-     $(":file").change(function () {
-        if (this.files && this.files[0]) {
-            var reader = new FileReader();
-            reader.onload = imageIsLoaded;
-            reader.readAsDataURL(this.files[0]);
-        }
-    });
 
-function imageIsLoaded(e) {
-    $('#myImg').attr('src', e.target.result);
-};//////////////*/
-	 $("#fileinput2").click(function(){
-    $("#fileinput2").change(function(){
-    	if(this.files && this.files[0]){
-    		var reader=new FileReader();
-    		reader.onload=imageIsLoaded2;
-    		reader.readAsDataURL(this.files[0]);
-    	}
-    });
-});var x=300,y=300,mm=1;
-		function imageIsLoaded2(e){
-			var imag='<img src="'+e.target.result+'" class="'+mm+'" alt="sorry!image not found" style="cursor:move;width:200px;height:200px;position:absolute;top:'+x+'px;left:'+y+'px">';
-			//$("."+mm).attr('src',e.target.result);
-			$("body").append(imag);
-			$("."+mm).resizable({ghost:true}).parent().draggable();
-			x=x+100;
-			y=y+100;
-			mm=mm+1;
-		};
+var x=300,y=300,mm=1;
+
 		$("#imgupload").click(function(){
-			$("#fileinput2").click();
+					$("#fileinput2").click();
+				});
+
+		 $("#fileinput2").click(function(){
+		 	var special=1;
+	   		 $("#fileinput2").change(function(){	
+	    			if(this.files && this.files[0] && special>0){
+	    			var reader=new FileReader();
+	    			reader.onload=function(e){
+	    				var imag='<img src="'+e.target.result+'" class="'+mm+'uploadedimage" alt="sorry!image not found" style="cursor:move;width:200px;height:200px;position:absolute;top:'+x+'px;left:'+y+'px">';
+						$("body").append(imag);
+						$("."+mm+"uploadedimage").resizable({ghost:true}).parent().draggable();
+						x=x+100;
+						y=y+100;
+						mm=mm+1;
+						special--;
+	    			};
+	    			reader.readAsDataURL(this.files[0]);
+	    			}
+	   		 });
 		});
 
+		
 $("#urlimage2submit").click(function(){
 	var userurl=prompt("Enter URl of Image","");
 	if(userurl!=null){
-	var imag='<img src="'+userurl+'" class="'+mm+'" style="cursor:move;position:absolute;top:'+y+'px;left:'+x+'px;width:100px;height:100px;">'
+	var imag='<img src="'+userurl+'" class="'+mm+'urlimage" style="cursor:move;position:absolute;top:'+y+'px;left:'+x+'px;width:100px;height:100px;">'
 	//'<img src=$("#urlimage2").val() class="'+mm+'" alt="" style="position:absolute;top:'+y+'px;left:'+x+'px;" width="50" height="50">';
 	$("body").append(imag);
-$("."+mm).resizable({ghost:true}).parent().draggable();
+	$("."+mm+"urlimage").resizable({ghost:true}).parent().draggable();
 //$("."+mm).draggable();
 	x=x+50;
 	y=y+50;
@@ -313,23 +286,26 @@ $("#youtube").click(function(){
 	var videourl=prompt("Enter the URL of the video","");
 	if(videourl!=null){
 	var videoid=getId(videourl);
-	var frame='<iframe class="'+mn+'" src="https://www.youtube.com/embed/'+videoid+'" style="position:absolute;top:'+xx+'px;left:'+yy+'px;width:420;height:315;" frameborder="0" allowfullscreen></iframe>'
+	var frame='<div class="'+mn+'youtube" style="position:absolute;top:'+xx+'px;left:'+yy+'px;width:420;height:315;"><iframe src="https://www.youtube.com/embed/'+videoid+'" style="width:95%;height:95%;" frameborder="0" allowfullscreen></iframe>'
 	$("body").append(frame);
-	//$("."+mm).resizable().parent().draggable({cancel:"iframe"});
+	$("."+mn+"youtube").draggable().resizable();
 xx=xx+50;
 yy=yy+50;
 mn=mn+1;
 }
 });
+var mm=1;
+$("#fb-video").click(function(){
 
-$("#fb-video").click(function(){var mm=1;
 	var fbvideo=prompt("Enter the embed code you have copied","");
 	if(fbvideo!=null){
-		var dim='<div class="'+mm+'"></div>'
-		$("."+mm).html(fbvideo);
+		var dim='<div class="'+mm+'fb"></div>'
 		$("body").append(dim);
+		$("."+mm+"fb").html(fbvideo);
+	    $("."+mm+"fb").draggable().resizable();
 	    mm=mm+1;
 	}
+	return;
 });
 
 });
