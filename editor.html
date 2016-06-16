@@ -11,32 +11,15 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="editor.js"></script>
+<script type="text/javascript" src="editor.js"></script>
+<link rel="stylesheet" href="http://s.mlcdn.co/animate.css">
+<!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+<script type="text/javascript" src="bgurl.js"></script>-->
+<link rel="stylesheet" href=" http://csshake.surge.sh/csshake.min.css">
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-<!--
-<div class=add>
-	<div class="dropdwn"><div class=dropdwn>ADD</div><br>
-		<div class="dropdwn-content">
-			<div class="dropdwn"><div class=dropdwn><button class=opt> TEXT</button></div>
-				<div class="dropdwn-content">
-					<button class=opt> IMAGES</button>
-					<button class=opt> VIDEOS</button>
-				</div>
-			</div>
-			<button class=opt> IMAGES</button>
-			<button class=opt> VIDEOS</button>
-		</div>
-	</div>
-
-	
-</div>
-<body>
-
-</body>
-
-</html>
--->
 <body class="buddy">
 <div class="container-fluid">
 
@@ -61,8 +44,8 @@
 			    		<a href="#">Background</a>
 			    			<div class="dropdown-content-subcontent-background">
 			    				<div style="height:0px;overflow:hidden;"><input type="color" value="#FFFFFF" id="bg"></div><a href="#" class="bgcolor">Background Color</a>
-			    				<div style="height:0px;overflow:hidden;"><input type="file" id="fileinput1"></div><a href="#" id="bgimage"><span class="glyphicon glyphicon-upload"></span>Upload and set an image</a>
-			    				<a href="#" id="urlbgimage"><span class="glyphicon glyphicon-link"></span>Paste a URL</a>
+			    				<div style="height:0px;overflow:hidden;"><input type="file" id="fileinput1"></div><a href="#" id="bgimage"><i class="fa fa-upload"></i>Upload and set an image</a>
+			    				<a href="#" id="urlbgimage"><span class="fa fa-link"></span>Paste a URL</a>
 			    			</div>
 		    		</div>
 
@@ -79,15 +62,15 @@
 			    		<a href="#">Image</a>
 			    			<div class="dropdown-content-subcontent-image">
 			    			<div style="height:0px;overflow:hidden;"><input type="file" id="fileinput2" multiple="true"></div> 
-			    				<a href="#" id="imgupload"><span class="glyphicon glyphicon-upload"></span>Upload an image</a>
-			    				<a href="#" id="urlimage2submit"><span class="glyphicon glyphicon-link"></span>Enter URL</a>
+			    				<a href="#" id="imgupload"><i class="fa fa-upload"></i>Upload an image</a>
+			    				<a href="#" id="urlimage2submit"><span class="fa fa-link"></span>Enter URL</a>
 			    			</div>
 		    		</div>
 		    		<div class="video-option">
 			    		<a href="#">Video</a>
 			    			<div class="dropdown-content-subcontent-video">
-			    				<a href="#" id="youtube">Youtube Video</span></a>
-			    				<a href="#" id="fb-video">Facebook video</a>
+			    				<a href="#" id="youtube"><i class="fa fa-youtube-play" style="color:red;"></i>Youtube Video</span></a>
+			    				<a href="#" id="fb-video"><i class="fa fa-facebook-f fa-2x"></i>acebook video</a>
 			    			</div>
 		    		</div>
 		    		<div class="button-option">
@@ -116,10 +99,10 @@
 		    		</div>
 		    		
 		    		<div class="strip-option">
-			    		<a href="#">Strip</a>
+			    		<a href="#">Social</a>
 			    			<div class="dropdown-content-subcontent-strip">
-			    				<a href="#">Li9nk 2</a>
-			    				<a href="#">Link 3</a>
+			    				<a href="#">Add an image as icon</a>
+			    				<a href="#">Add a Font Awesome icon</a>
 			    			</div>
 		    		</div>
 		    		<div class="box-optionn">
@@ -141,9 +124,78 @@
 	</div>
 
 	<div class="row footer">
-	<div class="col-lg-12 text_footer">Footer</div>
+	<div class="col-lg-12 text_footer">Footer</i></div>
 	</div>
 	<hr>
+</div>
+
+<div class="modal-input-for-bg-sizes" title="Size the background image">
+	<p>Type in x and y,for the size of background image would be x% of total width and y% of total height</p>
+	<form>
+	<fieldset>
+		<label>X%</label>
+		<input type="number" min="0" max="100" placeholder="ex: 50" class="x-input-for-bg-size" style="width:90%;">
+		<br>
+		<label>Y%</label>
+		<input type="number" min="0" max="100" placeholder="ex: 50" class="y-input-for-bg-size" style="width:90%;">	
+		<input type="submit" style="display:none">	
+	</fieldset>
+	</form>
+</div>
+
+<div class="modal-input-for-bg-pos" title="Position the background image">
+	<p>Type in x and y,for the position of background-image would be x% from left and y% from top.</p>
+	<form>
+	<fieldset>
+		<label>% from left</label>
+		<input type="number" min="0" max="100" placeholder="ex: 50" class="x-input-for-bg-pos" style="width:90%;">
+		<br>
+		<label>% from top</label>
+		<input type="number" min="0" max="100" placeholder="ex: 50" class="y-input-for-bg-pos" style="width:90%;">	
+		<input type="submit" style="display:none">	
+	</fieldset>
+	</form>
+</div>
+
+<div class="modal-input-for-bgimage" title="URL of Background image">
+	<form>
+	<label>URL</label>
+	<input type="url" class="url-input-for-bg-image" style="width:90%;">
+	<input type="submit" style="display:none">
+	</form>
+</div>
+
+<div class="modal-input-for-generalimage" title="Enter the URL of image">
+	<form>
+	<label>URL</label>
+	<input type="url" class="url-input-for-general-image" style="width:90%;">
+	<input type="submit" style="display:none;">
+	</form>
+</div>
+
+<div class="modal-input-for-youtube" title="Enter the URL of video">
+	<form>
+	<label>URL</label>
+	<input type="url" class="url-input-for-youtube" style="width:90%;">
+	<input type="submit" style="display:none;">
+	</form>
+</div>
+
+<!--<div class="modal-input-for-change-youtube">
+	<p>Enter the URL of video</p>
+	<form>
+	<label>URL</label>
+	<input type="url" class="url-input-for-change-youtube" style="width:90%;">
+	<input type="submit" style="display:none;">
+	</form>
+</div>-->
+
+<div class="modal-input-for-fb" title="Enter the Embed code of video">
+	<form>
+	<label>Embed code</label>
+	<input type="text" class="url-input-for-fb" style="width:90%;">
+	<input type="submit" style="display:none;">
+	</form>
 </div>
 
 </body>
