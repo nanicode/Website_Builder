@@ -473,12 +473,13 @@ function addurlbgimage(){
 	    			var reader=new FileReader();
 	    			reader.onload=imageisloaded;
 	    			reader.readAsDataURL(this.files[i]);
+	    			$(this).attr('value','');
 	    			}
 	   		 });
 		function imageisloaded(e){
-	    				var imag='<div class="uploadedimagediv" style="cursor:move;width:200px;height:200px;position:absolute;top:'+x+'px;left:'+y+'px">'+
-	    				'<a href="#">'+
-	    				'<img src="'+e.target.result+'" class="uploadedimage" alt="sorry!image not found" style="width:100%;height:100%;opacity:1;"></a>'+	
+	    				var imag='<div class="uploadedimagediv" style="cursor:move;width:200px;height:200px;position:absolute;top:'+x+'px;left:'+y+'px">'+	
+	    				'<a href="#" class="uploadedimageanchor"><img src="'+e.target.result+'" class="uploadedimage" alt="sorry!image not found" style="width:100%;height:100%;opacity:1;"></a>'+	
+	    				'<a class="duplicate-uploaded-anchor" href="#"></a>'+
 	   					'<div class="btn-group animated rubberBand edituploadedimage" style="display:none;">'+
 	    				'<button class="btn btn-primary opacity-uploadedimage">Change Opacity<span class="caret"></span></button>'+
 	    				'<div class="dropdown shape-uploadedimagedrop">'+
@@ -502,13 +503,9 @@ function addurlbgimage(){
 						$(".uploadedimagediv").draggable().resizable();
 						x=x+100;
 						y=y+100;
-						mm=mm+1;
 	    			}
 
 		//latest
-		
-
-
 		var upload_opacity_input_seen=0;
 
 		$(document).on('click','.uploadedimagediv',function(){
@@ -524,7 +521,7 @@ function addurlbgimage(){
 		});
 		$(document).on('click','.opacity-uploadedimage',function(e){
 			if(upload_opacity_input_seen==0){
-			var inputOpacityuploaded='<input type="number" class="opacity-uploadedimage-quantity" min="0" max="10" value="'+$(this).parent().siblings('.uploadedimage').css('opacity')*10+'">';
+			var inputOpacityuploaded='<input type="number" class="opacity-uploadedimage-quantity" min="0" max="10" value="'+$(this).parent().siblings().children('.uploadedimage').css('opacity')*10+'">';
 			$(".edituploadedimage").append(inputOpacityuploaded);
 			upload_opacity_input_seen=1;
 			}
@@ -534,7 +531,7 @@ function addurlbgimage(){
 			e.stopPropogation();
 		});
 		$(document).on('change','.opacity-uploadedimage-quantity',function(e){
-			$(this).parent().siblings('.uploadedimage').css('opacity',$(this).val()/10);
+			$(this).parent().siblings().children('.uploadedimage').css('opacity',$(this).val()/10);
 		});
 		$(document).on('click',function(e){
 					if(!$(e.target).closest(".uploadedimagediv").length){
@@ -548,9 +545,40 @@ $(document).on('click','.shape-uploadedimage',function(e){
 $(document).on('click','.animate-uploadedimage',function(e){
 	e.stopPropogation();
 });
+var dialogl1=$(".modal_inputs_for_uploaded_hyper").dialog({
+	autoOpen:false,
+	width:350,
+	height:350,
+	modal:true,
+	buttons:{
+		Cancel:function(){
+			dialogl1.dialog("close");
+		}		
+	},	
+	close:function(){
+		//forml1[0].reset();
+	}
+});
+var forml1=dialogl1.find("form").on('submit',function(e){
+	e.preventDefault();
+	link_to_uploadedimage();
+});
 $(document).on('click','.link-uploadedimage',function(e){
+	dialogl1.dialog("open");
+	$(this).parent().siblings('.duplicate-uploaded-anchor').addClass('just_clicked_for_hyper');
 	e.stopPropogation();
 });
+
+function link_to_uploadedimage(){
+	if($('.url-for-hyperuploadedimage').val()!=""){
+		$('.just_clicked_for_hyper').attr('href',$('.url-for-hyperuploadedimage').val());
+
+
+
+	}
+	$('.duplicate-uploaded-anchor').removeClass('just_clicked_for_hyper');
+	dialogl1.dialog("close");
+}
 
 $(document).on('mouseenter',".roundeduploaded",function(){
 	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
@@ -697,6 +725,7 @@ var form2=dialog2.find("form").on('submit',function(e){
 });
 function addurlgeneralimage(){
 	var imag='<div class="urlimagediv" style="cursor:move;position:absolute;top:'+y+'px;left:'+x+'px;width:100px;height:100px;"><a href="#" class="urlimageanchor"><img class="urlimage" alt="Sorry!Image not found" src="'+$(".url-input-for-general-image").val()+'" style="width:100%;height:100%;"></a>'+
+	'<a class="duplicate-url-anchor" href="#"></a>'+
 	'<div class="btn-group animated rubberBand editurlimage" style="display:none;">'+
 	'<button class="btn btn-primary opacity-urlimage">Change Opacity<span class="caret"></span></button>'+
 	'<div class="dropdown shape-urlimagedrop">'+
@@ -712,7 +741,7 @@ function addurlgeneralimage(){
 	'<ul class="dropdown-menu" role="menu">'+
 	'<li><a href="#" class="yoyo"></a></li>'+
 	'</ul></div>'+
-	'<button class="btn btn-primary link-urlimage">Hyperlink</button>'+
+	'<button class="btn btn-primary link-urlimage">Hyperlink<span class="caret"></span></button>'+
 	'<button class="btn btn-primary delete-urlimage"><i class="fa fa-trash-o"></i>  Delete Image</button>'+
 	'</div>'+
 	'</div>';
@@ -728,10 +757,6 @@ var url_opacity_input_seen=0;
 
 $(document).on('click','.urlimagediv',function(){
 	$('.editurlimage').fadeOut();
-	if(input_for_url_on_image_seen==1){
-		$('.inputs_div_for_url_hyper').remove();
-		input_for_url_on_image_seen=0;
-	}
 	$(this).children('.editurlimage').fadeIn();
 	if(url_opacity_input_seen==1){
 		$('.opacity-urlimage-quantity').remove();
@@ -739,10 +764,6 @@ $(document).on('click','.urlimagediv',function(){
 	}
 });
 $(document).on('click','.delete-urlimage',function(){
-	if(input_for_url_on_image_seen==1){
-		$('.inputs_div_for_url_hyper').remove();
-		input_for_url_on_image_seen=0;
-	}
 	if(url_opacity_input_seen==1){
 		$('.opacity-urlimage-quantity').remove();
 		url_opacity_input_seen=0;
@@ -750,12 +771,8 @@ $(document).on('click','.delete-urlimage',function(){
 	$(this).parent().parent().remove();
 });
 $(document).on('click','.opacity-urlimage',function(e){
-	if(input_for_url_on_image_seen==1){
-		$('.inputs_div_for_url_hyper').remove();
-		input_for_url_on_image_seen=0;
-	}
 	if(url_opacity_input_seen==0){
-		var inputOpacityurl='<input type="number" class="opacity-urlimage-quantity" min="0" max="10" value="'+$(this).parent().siblings('.urlimage').css('opacity')*10+'">';
+		var inputOpacityurl='<input type="number" class="opacity-urlimage-quantity" min="0" max="10" value="'+$(this).parent().siblings().children('.urlimage').css('opacity')*10+'">';
 		$(".editurlimage").append(inputOpacityurl);
 		url_opacity_input_seen=1;
 	}
@@ -765,7 +782,7 @@ $(document).on('click','.opacity-urlimage-quantity',function(e){
 	e.stopPropogation();
 });
 $(document).on('change','.opacity-urlimage-quantity',function(e){
-	$(this).parent().siblings('.urlimage').css('opacity',$(this).val()/10);
+	$(this).parent().siblings().children('.urlimage').css('opacity',$(this).val()/10);
 });
 $(document).on('click',function(e){
 		if(!$(e.target).closest(".urlimagediv").length){
@@ -777,10 +794,6 @@ $(document).on('click','.shape-urlimage',function(e){
 		$('.opacity-urlimage-quantity').remove();
 		url_opacity_input_seen=0;
 	}
-	if(input_for_url_on_image_seen==1){
-		$('.inputs_div_for_url_hyper').remove();
-		input_for_url_on_image_seen=0;
-	}
 	e.stopPropogation();
 });
 $(document).on('click','.animate-urlimage',function(e){
@@ -788,48 +801,47 @@ $(document).on('click','.animate-urlimage',function(e){
 		$('.opacity-urlimage-quantity').remove();
 		url_opacity_input_seen=0;
 	}
-	if(input_for_url_on_image_seen==1){
-		$('.inputs_div_for_url_hyper').remove();
-		input_for_url_on_image_seen=0;
-	}
 	e.stopPropogation();
 });
 
-/*var dialogl2=$("link-url-image").dialog({
+var dialogl2=$(".modal_inputs_for_url_hyper").dialog({
 	autoOpen:false,
 	width:350,
 	height:350,
 	modal:true,
 	buttons:{
+		//"OK":function(e){
+			//e.preventDefault();
+			//link_to_urlimage();
+		//}
 		Cancel:function(){
 			dialogl2.dialog("close");
 		}
 	},
 	close:function(){
-		forml2.reset();
+		forml2[0].reset();
 	}
 });
 var forml2=dialogl2.find("form").on('submit',function(e){
 	e.preventDefault();
 	link_to_urlimage();
-});*/
-var input_for_url_on_image_seen=0;
+});
+//var input_for_url_on_image_seen=0;
 $(document).on('click','.link-urlimage',function(e){
-	if(url_opacity_input_seen==1){
-		$('.opacity-urlimage-quantity').remove();
-		url_opacity_input_seen=0;
-	}
-	var input_for_url_on_image='<div class="inputs_div_for_url_hyper" style="background-color:red;display:block;"><input type="url" style="color:black;" placeholder="type URL" class="url-for-hyperurlimage"><br><input type="radio" name="target" style="color:red;" checked>New window<br>'+
-	'<input type="radio" name="target" style="color:white;">Same window</div>';
-	if(input_for_url_on_image_seen==0){
-		$(this).parent('.editurlimage').append(input_for_url_on_image);
-		input_for_url_on_image_seen=1;
-	}
+	dialogl2.dialog("open");
+	$(this).parent().siblings('.duplicate-url-anchor').addClass('just_clicked_for_hyper');
 	e.stopPropogation();
 });
-$(document).on('click','.inputs_div_for_url_hyper',function(e){
-	e.stopPropogation();
-});
+function link_to_urlimage(){
+	if($('.url-for-hyperurlimage').val()!=""){
+		$('.just_clicked_for_hyper').attr('href',$('.url-for-hyperurlimage').val());
+
+
+
+	}
+	$('.duplicate-url-anchor').removeClass('just_clicked_for_hyper');
+	dialogl2.dialog("close");
+}
 
 
 $(document).on('mouseenter',".roundedurl",function(){
@@ -1097,11 +1109,11 @@ $(document).on('click',".delete-fbvid",function(){
 $(document).on('click',".change-fbvid",function(e){
 	var newfbvideo=prompt("Enter the embed code of video","");
 	if(newfbvideo!=null){
-		newfbvideo=newfbvideo+'<br><br>\
-			<div class="btn-group editfbvid" style="display:none;" >\
-			<button class="btn btn-primary change-fbvid">Change Video</button>\
-			<button class="btn btn-primary delete-fbvid"><i class="fa fa-trash-o"></i>  Delete Video</button>\
-			</div>';
+		newfbvideo=newfbvideo+'<br><br>'+
+			'<div class="btn-group editfbvid" style="display:none;" >'+
+			'<button class="btn btn-primary change-fbvid">Change Video</button>'+
+			'<button class="btn btn-primary delete-fbvid"><i class="fa fa-trash-o"></i>  Delete Video</button>'+
+			'</div>';
 		$(this).parent().parent().html(newfbvideo);
 	}
 	e.stopPropogation();
@@ -1111,6 +1123,15 @@ $(document).on('click',function(e){
 		$(".editfbvid").fadeOut();
 	}
 });
+
+
+
+function myfunction(){
+var len=$('.urlimageanchor').length,i=0;
+while(i<len){
+	$('.urlimageanchor')[i].attr('href')=$('.urlimageanchor')[i].siblings('.duplicate-url-anchor').attr('href');
+}
+}
 
 
 });
