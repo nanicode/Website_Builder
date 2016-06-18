@@ -274,6 +274,14 @@ $(document).on('click','.auto-bgsize',function(e){
 });/**/
 var dialog0=$(".modal-input-for-bg-sizes").dialog({
 	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
 	width:350,
 	height:350,
 	modal:true,
@@ -365,6 +373,14 @@ function pos_the_bgimage{
 }*/
 var dialog9=$(".modal-input-for-bg-pos").dialog({
 	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
 	width:350,
 	height:350,
 	modal:true,
@@ -440,6 +456,14 @@ $("#urlbgimage").click(function(){
 
 var dialog1=$(".modal-input-for-bgimage").dialog({
 	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
 	height:250,
 	width:350,
 	modal:true,
@@ -493,7 +517,8 @@ function addurlbgimage(){
 						'<div class="dropdown animate-uploadedimagedrop">'+
 						'<button class="btn btn-primary dropdown-toggle animate-uploadedimage" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
 						'<ul class="dropdown-menu scrollable-menu" role="menu">'+
-						'<li><a href="#" class="yoyo">r</a></li>'+
+						'<li><a href="#" class="animate_type_uploaded">Animation Types</a></li>'+
+						'<li><a href="#" class="advance_animate_uploaded">Advanced Animation Options</a></li>'+	
 						'</ul></div>'+
 						'<button class="btn btn-primary link-uploadedimage">Hyperlink<span class="caret"></span></button>'+
 	    				'<button class="btn btn-primary delete-uploadedimage"><i class="fa fa-trash-o"></i>  Delete Image</button>'+
@@ -547,6 +572,14 @@ $(document).on('click','.animate-uploadedimage',function(e){
 });
 var dialogl1=$(".modal_inputs_for_uploaded_hyper").dialog({
 	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
 	width:350,
 	height:350,
 	modal:true,
@@ -556,7 +589,8 @@ var dialogl1=$(".modal_inputs_for_uploaded_hyper").dialog({
 		}		
 	},	
 	close:function(){
-		//forml1[0].reset();
+		forml1[0].reset();
+		$('.duplicate-uploaded-anchor').removeClass('just_clicked_for_hyper');
 	}
 });
 var forml1=dialogl1.find("form").on('submit',function(e){
@@ -572,10 +606,9 @@ $(document).on('click','.link-uploadedimage',function(e){
 function link_to_uploadedimage(){
 	if($('.url-for-hyperuploadedimage').val()!=""){
 		$('.just_clicked_for_hyper').attr('href',$('.url-for-hyperuploadedimage').val());
-
-
-
-	}
+	}	
+	$('.just_clicked_for_hyper').attr('target',$('input[name="target_uploaded"]:checked').val());
+		
 	$('.duplicate-uploaded-anchor').removeClass('just_clicked_for_hyper');
 	dialogl1.dialog("close");
 }
@@ -706,11 +739,22 @@ $("#urlimage2submit").click(function(){
 });
 var dialog2=$(".modal-input-for-generalimage").dialog({
 	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
 	height:300,
 	width:350,
 	modal:true,
 	buttons:{
-		"OK":addurlgeneralimage,
+		"OK":function(e){
+			//e.preventDefault();			
+			addurlgeneralimage();
+		},
 		Cancel:function(){
 			dialog2.dialog("close");
 		}
@@ -739,7 +783,8 @@ function addurlgeneralimage(){
 	'<div class="dropdown animate-urlimagedrop">'+
 	'<button class="btn btn-primary dropdown-toggle animate-urlimage" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
 	'<ul class="dropdown-menu" role="menu">'+
-	'<li><a href="#" class="yoyo"></a></li>'+
+	'<li><a href="#" class="animate_type_url">Animation Types</a></li>'+
+	'<li><a href="#" class="advance_animate_url">Advanced Animation Options</a></li>'+	
 	'</ul></div>'+
 	'<button class="btn btn-primary link-urlimage">Hyperlink<span class="caret"></span></button>'+
 	'<button class="btn btn-primary delete-urlimage"><i class="fa fa-trash-o"></i>  Delete Image</button>'+
@@ -806,6 +851,14 @@ $(document).on('click','.animate-urlimage',function(e){
 
 var dialogl2=$(".modal_inputs_for_url_hyper").dialog({
 	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
 	width:350,
 	height:350,
 	modal:true,
@@ -820,6 +873,7 @@ var dialogl2=$(".modal_inputs_for_url_hyper").dialog({
 	},
 	close:function(){
 		forml2[0].reset();
+		$('.duplicate-url-anchor').removeClass('just_clicked_for_hyper');		
 	}
 });
 var forml2=dialogl2.find("form").on('submit',function(e){
@@ -835,10 +889,9 @@ $(document).on('click','.link-urlimage',function(e){
 function link_to_urlimage(){
 	if($('.url-for-hyperurlimage').val()!=""){
 		$('.just_clicked_for_hyper').attr('href',$('.url-for-hyperurlimage').val());
-
-
-
 	}
+	$('.just_clicked_for_hyper').attr('target',$('input[name="target_url"]:checked').val());
+	
 	$('.duplicate-url-anchor').removeClass('just_clicked_for_hyper');
 	dialogl2.dialog("close");
 }
@@ -964,6 +1017,9 @@ $(document).on('click',".normalurl",function(e){
 		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-thumbnail');
 	}
 });	
+
+
+
 function  getId(url) {
 	var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
@@ -980,6 +1036,14 @@ var xx=100;
 
 var dialog3=$(".modal-input-for-youtube").dialog({
 	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
 	height:300,
 	width:350,
 	modal:true,
@@ -993,7 +1057,8 @@ var dialog3=$(".modal-input-for-youtube").dialog({
 		form3[0].reset();
 	}
 });
-var form3=dialog3.find("form").on('submit',function(e){
+var form3=$(".modal-input-for-youtube").find("form");
+form3.on('submit',function(e){
 	e.preventDefault();
 	addurlyoutube();
 });
@@ -1070,6 +1135,14 @@ $("#fb-video").click(function(){
 });
 var dialog5=$(".modal-input-for-fb").dialog({
 	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
 	height:300,
 	width:350,
 	modal:true,
@@ -1124,14 +1197,239 @@ $(document).on('click',function(e){
 	}
 });
 
+$(".add_image_for_social").click(function(e){
+	dialogmsg.dialog("open");
+	e.stopPropogation();
+});
+var dialogmsg=$(".msg_social").dialog({
+	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:"explode",
+		duration:1000
+	},
+	modal:true,
+	buttons:{
+		"OK":function(){
+		$(this).dialog("close");
+		}
+	}
+});
+	
+var dialogicon=$(".modal_input_for_icon").dialog({
+	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
+	modal:true,
+	buttons:{
+		"OK":addicon,
+		Cancel:function(){
+			dialogicon.dialog("close");
+		}
+	},
+	close:function(){
+		formicon[0].reset();
+		$(".text_for_fa").show();
+		$(".text_for_mi").hide();
+	}
+});
+var formicon=$(".modal_input_for_icon").find("form");
 
+formicon.on('submit',function(e){
+	e.preventDefault();
+	addicon();
+});
+$(".add_fa_for_social").click(function(){
+	dialogicon.dialog("open");	
+});
 
-function myfunction(){
-var len=$('.urlimageanchor').length,i=0;
-while(i<len){
-	$('.urlimageanchor')[i].attr('href')=$('.urlimageanchor')[i].siblings('.duplicate-url-anchor').attr('href');
+$("input[name='type_of_icon'][value='fa']").click(function(){
+	$(".text_for_fa").show();
+	$(".text_for_mi").hide();
+});
+$("input[name='type_of_icon'][value='material']").click(function(){
+	$(".text_for_mi").show();
+	$(".text_for_fa").hide();
+});
+
+function addicon(){
+	
+	if($("input[name='type_of_icon']:checked").val()=="fa" && $(".text_for_fa").val()!=""){
+		var iconvar='<div class="icondiv"><a href="#" class="iconanchor"><i class="iconic '+$(".text_for_fa").val()+'" style="font-size:30px;color:black;"></i></a>'+
+	'<a class="duplicate-icon-anchor" href="#"></a>'+
+	'<div class="btn-group animated rubberBand editicon" style="display:none;">'+
+	'<button class="btn btn-primary sizencolor-icon">Size and Color<span class="caret"></span></button>'+	
+	'<div class="dropdown animate-icondrop">'+
+	'<button class="btn btn-primary dropdown-toggle animate-icon" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
+	'<li><a href="#" class="animate_type_icon">Animation Types</a></li>'+
+	'<li><a href="#" class="advance_animate_icon">Advanced Animation Options</a></li>'+	
+	'<li><a href="#" class="yoyo"></a></li>'+
+	'</ul></div>'+
+	'<button class="btn btn-primary link-icon">Hyperlink<span class="caret"></span></button>'+
+	'<button class="btn btn-primary delete-icon"><i class="fa fa-trash-o"></i>  Delete Icon</button>'+
+	'</div>'+
+	'</div>';
+
+	$("body").append(iconvar);
+	//$('.icondiv').css('width',$('.iconic').css('width'));
+	$('.icondiv').draggable();
+	}
+
+	if($("input[name='type_of_icon']:checked").val()=="material" && $(".text_for_mi").val()!=""){
+		var iconvar='<div class="icondiv" style="height:auto;width:auto;"><a href="#" class="iconanchor"><i class="iconic material-icons" style="color:black;font-size:30px;">'+$(".text_for_mi").val()+'</i></a>'+
+	'<a class="duplicate-icon-anchor" href="#"></a>'+
+	'<div class="btn-group animated rubberBand editicon" style="display:none;">'+
+	'<button class="btn btn-primary sizencolor-icon">Size and Color<span class="caret"></span></button>'+
+	'<div class="dropdown animate-icondrop">'+
+	'<button class="btn btn-primary dropdown-toggle animate-icon" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
+	'<ul class="dropdown-menu" role="menu">'+
+	'<li><a href="#" class="animate_type_icon">Animation Types</a></li>'+
+	'<li><a href="#" class="advance_animate_icon">Advanced Animation Options</a></li>'+	
+	'</ul></div>'+
+	'<button class="btn btn-primary link-icon">Hyperlink<span class="caret"></span></button>'+
+	'<button class="btn btn-primary delete-icon"><i class="fa fa-trash-o"></i>  Delete Icon</button>'+
+	'</div>'+
+	'</div>';
+
+	$("body").append(iconvar);
+	$('.icondiv').draggable();
+	}
+	dialogicon.dialog("close");
+	return;
 }
+$(document).on('click','.icondiv',function(e){
+	$('.editicon').fadeOut();
+	$(this).children('.editicon').fadeIn();
+	e.stopPropogation();
+});
+$(document).on('click','.delete-icon',function(){
+	$(this).parent().parent().remove();
+});	
+$(document).on('click','.animate-icon',function(){
+	e.stopPropogation();
+});
+$(document).on('click',function(e){
+	if(!$(e.target).closest('.icondiv').length){
+		$('.editicon').fadeOut();
+	}
+});
+var dialogsnc=$(".modal_input_for_snc_icon").dialog({
+	autoOpen:false,
+	width:350,
+	height:400,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
+	modal:true,
+	buttons:{
+		"OK":sncicon,
+		Cancel:function(){
+			dialogsnc.dialog("close");
+		}
+	},
+	close:function(){
+		formsnc[0].reset();
+		$('.iconanchor').removeClass('justclickedic');	
+	}
+});
+var formsnc=$(".modal_input_for_snc_icon").find("form");
+formsnc.on('submit',function(e){
+	e.preventDefault();
+	sncicon();
+});
+$(document).on('click','.sizencolor-icon',function(){
+	dialogsnc.dialog("open");
+	$(this).parent().siblings('.iconanchor').addClass('justclickedic');
+});
+function sncicon(){
+	//if($(".size_for_icon").val()!=""){
+		$('.justclickedic').children().css('font-size',$(".size_for_icon").val()+"px");
+	//}
+	$('.justclickedic').children().css('color',$(".color_for_icon").val());
+	$('.iconanchor').removeClass('justclickedic');	
+	dialogsnc.dialog("close");
 }
 
+var dialogl3=$(".modal_inputs_for_icon_hyper").dialog({
+	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
+	width:350,
+	height:350,
+	modal:true,
+	buttons:{
+		//"OK":function(e){
+			//e.preventDefault();
+			//link_to_urlimage();
+		//}
+		Cancel:function(){
+			dialogl3.dialog("close");
+		}
+	},
+	close:function(){
+		forml3[0].reset();
+		$('.duplicate-icon-anchor').removeClass('just_clicked_for_hyperic');
+	}
+});
+var forml3=dialogl3.find("form").on('submit',function(e){
+	e.preventDefault();
+	link_to_icon();
+});
+$(document).on('click','.link-icon',function(e){
+	$(this).parent().siblings('.duplicate-icon-anchor').addClass('just_clicked_for_hyperic');
+	dialogl3.dialog("open");
+	e.stopPropogation();
+});
+function link_to_icon(){
+	if($('.url-for-hypericon').val()!=""){
+		$('.just_clicked_for_hyperic').attr('href',$('.url-for-hypericon').val());
+	}
+	$('.just_clicked_for_hyperic').attr('target',$('input[name="target_icon"]:checked').val());
+	$('.duplicate-icon-anchor').removeClass('just_clicked_for_hyperic');
+	dialogl3.dialog("close");
+}
+
+$(".click_here_for_link").click(function(){
+	var len=$('.urlimageanchor').length,i=0;		
+		while(i<len){
+			$($('.urlimageanchor')[i]).attr('href',$($('.urlimageanchor')[i]).siblings('.duplicate-url-anchor').attr('href'));
+			$($('.urlimageanchor')[i]).attr('target',$($('.urlimageanchor')[i]).siblings('.duplicate-url-anchor').attr('target'));
+			i++;
+		}
+		var leng=$('.uploadedimageanchor').length,j=0;alert(leng);
+		while(j<leng){
+			$('.uploadedimageanchor').eq(j).attr('href',$('.uploadedimageanchor').eq(j).siblings('.duplicate-uploaded-anchor').attr('href'));
+			$('.uploadedimageanchor').eq(j).attr('target',$('.uploadedimageanchor').eq(j).siblings('.duplicate-uploaded-anchor').attr('target'));
+			j++;
+		}alert(j);
+		var lengt=$('.iconanchor').length,k=0;
+		while(k<lengt){
+			$($('.iconanchor')[k]).attr({
+				'href':$('.duplicate-icon-anchor').eq(k).attr('href'),
+				'target':$('.duplicate-icon-anchor').eq(k).attr('target')
+			});
+			k++;
+		}
+});
 
 });

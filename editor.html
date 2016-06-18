@@ -101,8 +101,8 @@
 		    		<div class="strip-option">
 			    		<a href="#">Social</a>
 			    			<div class="dropdown-content-subcontent-strip">
-			    				<a href="#">Add an image as icon</a>
-			    				<a href="#">Add a Font Awesome icon</a>
+			    				<a href="#" class="add_image_for_social">Add an image as icon</a>
+			    				<a href="#" class="add_fa_for_social">Add a Font Awesome icon</a>
 			    			</div>
 		    		</div>
 		    		<div class="box-optionn">
@@ -203,8 +203,8 @@
 	<label>URL</label><br>
 	<input type="url" placeholder="type URL" class="url-for-hyperurlimage" style="width:90%;"><br><br><br><br>
 	<label>Open in</label><br>
-	<input type="radio" name="target_url" checked>New window<br>
-	<input type="radio" name="target_url">Same window
+	<input type="radio" name="target_url" value="_blank" checked>New window<br>
+	<input type="radio" name="target_url" value="_self">Same window
 	<input type="submit" style="display:none;">
 	</form>
 </div>
@@ -214,12 +214,52 @@
 	<label>URL</label><br>
 	<input type="url" placeholder="type URL" class="url-for-hyperuploadedimage" style="width:90%;"><br><br><br><br>
 	<label>Open in</label><br>
-	<input type="radio" name="target_uploaded" checked>New window<br>
-	<input type="radio" name="target_uploaded">Same window
+	<input type="radio" name="target_uploaded" value="_blank" checked>New window<br>
+	<input type="radio" name="target_uploaded" value="_self">Same window
 	<input type="submit" style="display:none;">
 	</form>
 </div>
-<button onclick="myfunction">ok</button>
+
+<div class="msg_social">
+<p>Upload an image and make it a hyperlink</p>
+</div>
+
+<div class="modal_input_for_icon" title="Add an icon">
+<form>
+<input type="radio" value="fa" class="" name="type_of_icon" checked>Font Awesome<br>
+<input type="text" class="text_for_fa" placeholder="ex:fa fa-car" style="width:90%;"><br>
+<input type="radio" value="material" class="" name="type_of_icon">Google Material Icon<br>
+<input type="text" class="text_for_mi" placeholder="ex:cloud" style="width:90%;display:none;"><br>
+<input type="submit" style="display:none;">
+</form>
+</div>
+
+<div class="modal_input_for_snc_icon" title="Size and Color of Icon">
+<p>Initial size was 30px and color was black</p>
+<form>
+<label>Size in pixels</label><br><br>
+<input type="number" min="0" style="width:90%;" placeholder="ex:30  Enter only the number" class="size_for_icon"><br><br>
+<label>Color of the icon</label><br><br>
+<input type="color" value="#000000" class="color_for_icon">
+<input type="submit" style="display:none;">
+</form>
+</div>
+
+<div class="modal_inputs_for_icon_hyper" title="Set icon as a hyperlink">
+	<form>
+	<label>URL</label><br>
+	<input type="url" placeholder="type URL" class="url-for-hypericon" style="width:90%;"><br><br>
+	<label>Open in</label><br>
+	<input type="radio" name="target_icon" value="_blank" checked>New window<br>
+	<input type="radio" name="target_icon" value="_self">Same window
+	<input type="submit" style="display:none;">
+	</form>
+</div>
+<!--<div class="modal_input_for_icon">
+<form>
+<input type="text" placeholder=""-->
+
+<button class="click_here_for_link">ok</button>
 </body>
 
 </html>
