@@ -215,7 +215,7 @@ $(document).on('click',function(e){
 	//if(bgoptions_seen==1){
 		$(".editbg").remove();
 		//}
-	if(!$(e.target).closest(".uploadedimagediv").length && !$(e.target).closest(".urlimagediv").length && !$(e.target).is(".fbviddiv") && !$(e.target).is(".youtubeviddiv") && body_has_bgimage){
+	if(!$(e.target).closest(".imagediv").length && !$(e.target).closest(".urlimagediv").length && !$(e.target).is(".fbviddiv") && !$(e.target).is(".youtubeviddiv") && body_has_bgimage){
 		var bgoptions='<div class="btn-group animated rubberBand editbg" style="position:absolute;left:'+click_x+'px;top:'+click_y+'px;">'+		
 		'<button class="btn btn-primary position-bgimage">Background Position</button>'+
 		'<div class="dropdown">'+
@@ -501,76 +501,149 @@ function addurlbgimage(){
 	    			}
 	   		 });
 		function imageisloaded(e){
-	    				var imag='<div class="uploadedimagediv" style="cursor:move;width:200px;height:200px;position:absolute;top:'+x+'px;left:'+y+'px">'+	
-	    				'<a href="#" class="uploadedimageanchor"><img src="'+e.target.result+'" class="uploadedimage" alt="sorry!image not found" style="width:100%;height:100%;opacity:1;"></a>'+	
-	    				'<a class="duplicate-uploaded-anchor" href="#"></a>'+
-	   					'<div class="btn-group animated rubberBand edituploadedimage" style="display:none;">'+
-	    				'<button class="btn btn-primary opacity-uploadedimage">Change Opacity<span class="caret"></span></button>'+
-	    				'<div class="dropdown shape-uploadedimagedrop">'+
-						'<button class="btn btn-primary dropdown-toggle shape-uploadedimage" data-toggle="dropdown">Shape<span class="caret"></span></button>'+
+	    				var imag='<div class="imagediv" style="cursor:move;width:200px;height:200px;position:absolute;top:'+x+'px;left:'+y+'px">'+	
+	    				'<a href="#" class="imageanchor"><img src="'+e.target.result+'" class="image" alt="sorry!image not found" style="width:100%;height:100%;opacity:1;"></a>'+	
+	    				'<a class="duplicate-anchor" href="#"></a>'+
+	   					'<div class="btn-group animated rubberBand editimage" style="display:none;">'+
+	    				'<button class="btn btn-primary opacity-image">Change Opacity<span class="caret"></span></button>'+
+	    				'<div class="dropdown shape-imagedrop">'+
+						'<button class="btn btn-primary dropdown-toggle shape-image" data-toggle="dropdown">Shape<span class="caret"></span></button>'+
 						'<ul class="dropdown-menu" role="menu">'+
-						'<li><a href="#" class="roundeduploaded">Rounded</a></li>'+
-						'<li><a href="#" class="circleuploaded">Circle</a></li>'+
-						'<li><a href="#" class="thumbnailuploaded">Thumbnail</a></li>'+
-						'<li><a href="#" class="normaluploaded">Normal</a></li>'+
+						'<li><a href="#" class="rounded">Rounded</a></li>'+
+						'<li><a href="#" class="circle">Circle</a></li>'+
+						'<li><a href="#" class="thumbnail">Thumbnail</a></li>'+
+						'<li><a href="#" class="normal">Normal</a></li>'+
 						'</ul></div>'+
-						'<div class="dropdown animate-uploadedimagedrop">'+
-						'<button class="btn btn-primary dropdown-toggle animate-uploadedimage" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
+						'<div class="dropdown animate-drop">'+
+						'<button class="btn btn-primary dropdown-toggle animateadd" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
 						'<ul class="dropdown-menu scrollable-menu" role="menu">'+
-						'<li><a href="#" class="animate_type_uploaded">Animation Types</a></li>'+
-						'<li><a href="#" class="advance_animate_uploaded">Advanced Animation Options</a></li>'+	
+						'<li><a href="#" class="animate_type">Animation Types</a></li>'+
+						'<li><a href="#" class="advance_animate">Advanced Animation Options</a></li>'+	
 						'</ul></div>'+
-						'<button class="btn btn-primary link-uploadedimage">Hyperlink<span class="caret"></span></button>'+
-	    				'<button class="btn btn-primary delete-uploadedimage"><i class="fa fa-trash-o"></i>  Delete Image</button>'+
+						'<button class="btn btn-primary link-image">Hyperlink<span class="caret"></span></button>'+
+	    				'<button class="btn btn-primary delete-image"><i class="fa fa-trash-o"></i>  Delete Image</button>'+
 	    				'</div>'+
 	    				'</div>';
 						$("body").append(imag);
-						$(".uploadedimagediv").draggable().resizable();
+						$(".imagediv").draggable().resizable();
 						x=x+100;
 						y=y+100;
 	    			}
 
-		//latest
-		var upload_opacity_input_seen=0;
+		$("#urlimage2submit").click(function(){
+			dialog2.dialog("open");
+		});
+		var dialog2=$(".modal-input-for-generalimage").dialog({
+			autoOpen:false,
+			show:{
+				effect:"blind",
+				duration:1000
+			},
+			hide:{
+				effect:'explode',
+				duration:1000
+			},
+			height:300,
+			width:350,
+			modal:true,
+			buttons:{
+				"OK":function(e){
+					//e.preventDefault();			
+					addurlgeneralimage();
+				},
+				Cancel:function(){
+					dialog2.dialog("close");
+				}
+			},
+			close:function(){
+				form2[0].reset();
+			}
+		});
+		var form2=dialog2.find("form").on('submit',function(e){
+			e.preventDefault();
+			addurlgeneralimage();
+		});
+		function addurlgeneralimage(){
+			var imag='<div class="imagediv" style="cursor:move;position:absolute;top:'+y+'px;left:'+x+'px;width:100px;height:100px;"><a href="#" class="imageanchor"><img class="image" alt="Sorry!Image not found" src="'+$(".-input-for-general-image").val()+'" style="width:100%;height:100%;"></a>'+
+			'<a class="duplicate-anchor" href="#"></a>'+
+			'<div class="btn-group animated rubberBand editimage" style="display:none;">'+
+			'<button class="btn btn-primary opacity-image">Change Opacity<span class="caret"></span></button>'+
+			'<div class="dropdown shape-imagedrop">'+
+			'<button class="btn btn-primary dropdown-toggle shape-image" data-toggle="dropdown">Shape<span class="caret"></span></button>'+
+			'<ul class="dropdown-menu" role="menu">'+
+			'<li><a href="#" class="rounded">Rounded</a></li>'+
+			'<li><a href="#" class="circle">Circle</a></li>'+
+			'<li><a href="#" class="thumbnail">Thumbnail</a></li>'+
+			'<li><a href="#" class="normal">Normal</a></li>'+
+			'</ul></div>'+
+			'<div class="dropdown animate-drop">'+
+			'<button class="btn btn-primary dropdown-toggle animateadd" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
+			'<ul class="dropdown-menu" role="menu">'+
+			'<li><a href="#" class="animate_type_">Animation Types</a></li>'+
+			'<li><a href="#" class="advance_animate_">Advanced Animation Options</a></li>'+	
+			'</ul></div>'+
+			'<button class="btn btn-primary link-image">Hyperlink<span class="caret"></span></button>'+
+			'<button class="btn btn-primary delete-image"><i class="fa fa-trash-o"></i>  Delete Image</button>'+
+			'</div>'+
+			'</div>';
+			$("body").append(imag);
+			$(".imagediv").draggable().resizable();
+			x=x+50;
+			y=y+50;
+			dialog2.dialog("close");
+			return;
+		}			
 
-		$(document).on('click','.uploadedimagediv',function(){
-				$(".edituploadedimage").slideUp();
-				$(this).children(".edituploadedimage").slideDown();
-				if(upload_opacity_input_seen==1){
-					$(".opacity-uploadedimage-quantity").remove();
-					upload_opacity_input_seen=0;
+
+		//latest
+		var opacity_input_seen=0;
+
+		$(document).on('click','.imagediv',function(){
+				$(".editimage").slideUp();
+				$(this).children(".editimage").slideDown();
+				if(opacity_input_seen==1){
+					$(".opacity-image-quantity").remove();
+					opacity_input_seen=0;
 				}
 		});
-		$(document).on('click','.delete-uploadedimage',function(){
+		$(document).on('click','.delete-image',function(){
 			$(this).parent().parent().remove();
 		});
-		$(document).on('click','.opacity-uploadedimage',function(e){
-			if(upload_opacity_input_seen==0){
-			var inputOpacityuploaded='<input type="number" class="opacity-uploadedimage-quantity" min="0" max="10" value="'+$(this).parent().siblings().children('.uploadedimage').css('opacity')*10+'">';
-			$(".edituploadedimage").append(inputOpacityuploaded);
-			upload_opacity_input_seen=1;
+		$(document).on('click','.opacity-image',function(e){
+			if(opacity_input_seen==0){
+			var inputOpacity='<input type="number" class="opacity-image-quantity" min="0" max="10" value="'+$(this).parent().siblings().children('.image').css('opacity')*10+'">';
+			$(".editimage").append(inputOpacity);
+			opacity_input_seen=1;
 			}
 			e.stopPropogation();
 		});
-		$(document).on('click','.opacity-uploadedimage-quantity',function(e){
+		$(document).on('click','.opacity-image-quantity',function(e){
 			e.stopPropogation();
 		});
-		$(document).on('change','.opacity-uploadedimage-quantity',function(e){
-			$(this).parent().siblings().children('.uploadedimage').css('opacity',$(this).val()/10);
+		$(document).on('change','.opacity-image-quantity',function(e){
+			$(this).parent().siblings().children('.image').css('opacity',$(this).val()/10);
 		});
 		$(document).on('click',function(e){
-					if(!$(e.target).closest(".uploadedimagediv").length){
-						$(".edituploadedimage").slideUp();
+					if(!$(e.target).closest(".imagediv").length){
+						$(".editimage").slideUp();
 					}
 		});
 
-$(document).on('click','.shape-uploadedimage',function(e){
+$(document).on('click','.shape-image',function(e){
+	if(opacity_input_seen==1){
+		$(".opacity-image-quantity").remove();
+		opacity_input_seen=0;
+	}	
 	e.stopPropogation();
 });
-$(document).on('click','.animate-uploadedimage',function(e){
+$(document).on('click','.animate-image',function(e){
+	if(opacity_input_seen==1){
+		$(".opacity-image-quantity").remove();
+		opacity_input_seen=0;
+	}
 	e.stopPropogation();
 });
-var dialogl1=$(".modal_inputs_for_uploaded_hyper").dialog({
+var dialogl1=$(".modal_inputs_for_hyper").dialog({
 	autoOpen:false,
 	show:{
 		effect:"blind",
@@ -590,433 +663,152 @@ var dialogl1=$(".modal_inputs_for_uploaded_hyper").dialog({
 	},	
 	close:function(){
 		forml1[0].reset();
-		$('.duplicate-uploaded-anchor').removeClass('just_clicked_for_hyper');
+		$('.duplicate-anchor').removeClass('just_clicked_for_hyper');
 	}
 });
 var forml1=dialogl1.find("form").on('submit',function(e){
 	e.preventDefault();
-	link_to_uploadedimage();
+	link_to_image();
 });
-$(document).on('click','.link-uploadedimage',function(e){
+$(document).on('click','.link-image',function(e){
 	dialogl1.dialog("open");
-	$(this).parent().siblings('.duplicate-uploaded-anchor').addClass('just_clicked_for_hyper');
+	$(this).parent().siblings('.duplicate-anchor').addClass('just_clicked_for_hyper');
 	e.stopPropogation();
 });
 
-function link_to_uploadedimage(){
-	if($('.url-for-hyperuploadedimage').val()!=""){
-		$('.just_clicked_for_hyper').attr('href',$('.url-for-hyperuploadedimage').val());
+function link_to_image(){
+	if($('.url-for-hyperimage').val()!=""){
+		$('.just_clicked_for_hyper').attr('href',$('.url-for-hyperimage').val());
 	}	
-	$('.just_clicked_for_hyper').attr('target',$('input[name="target_uploaded"]:checked').val());
+	$('.just_clicked_for_hyper').attr('target',$('input[name="target"]:checked').val());
 		
-	$('.duplicate-uploaded-anchor').removeClass('just_clicked_for_hyper');
+	$('.duplicate-anchor').removeClass('just_clicked_for_hyper');
 	dialogl1.dialog("close");
 }
 
-$(document).on('mouseenter',".roundeduploaded",function(){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-circle');
+$(document).on('mouseenter',".rounded",function(){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-circle');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-thumbnail');
 	}
-	$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-rounded');
-}).on('mouseleave','.roundeduploaded',function(){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-circle');
+	$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-rounded');
+}).on('mouseleave','.rounded',function(){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-circle');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-thumbnail');
 	}	
-	if(!$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-rounded');
+	if(!$(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-rounded');
 	}	
 });
-$(document).on('click',".roundeduploaded",function(e){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-circle');
+$(document).on('click',".rounded",function(e){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-circle');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-thumbnail');
 	}
-	$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('clicked-img-rounded');
+	$(this).parent().parent().parent().parent().siblings().children('.image').addClass('clicked-img-rounded');
 	e.stopPropogation();
 });
-$(document).on('mouseenter',".circleuploaded",function(){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-rounded');
+$(document).on('mouseenter',".circle",function(){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-thumbnail');
 	}
-	$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-circle');
-}).on('mouseleave','.circleuploaded',function(){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-rounded');
+	$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-circle');
+}).on('mouseleave','.circle',function(){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-thumbnail');
 	}
-	if(!$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-circle');
+	if(!$(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-circle');
 	}
 });
-$(document).on('click',".circleuploaded",function(e){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-rounded');
+$(document).on('click',".circle",function(e){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-thumbnail');
 	}	
-	$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('clicked-img-circle');
+	$(this).parent().parent().parent().parent().siblings().children('.image').addClass('clicked-img-circle');
 	e.stopPropogation();
 });
-$(document).on('mouseenter',".thumbnailuploaded",function(){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-rounded');
+$(document).on('mouseenter',".thumbnail",function(){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-circle');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-circle');
 	}
-	$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-thumbnail');
-}).on('mouseleave','.thumbnailuploaded',function(){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-rounded');
+	$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-thumbnail');
+}).on('mouseleave','.thumbnail',function(){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-circle');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-circle');
 	}
-	if(!$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-thumbnail');
+	if(!$(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-thumbnail');
 	}
 });
-$(document).on('click',".thumbnailuploaded",function(e){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-rounded');
+$(document).on('click',".thumbnail",function(e){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-circle');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-circle');
 	}	
-	$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('clicked-img-thumbnail');
+	$(this).parent().parent().parent().parent().siblings().children('.image').addClass('clicked-img-thumbnail');
 	e.stopPropogation();
 });
 
-$(document).on('mouseenter',".normaluploaded",function(e){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded') ){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-rounded');
+$(document).on('mouseenter',".normal",function(e){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded') ){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-circle');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-circle');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('img-thumbnail');
 	}
-}).on('mouseleave','.normaluploaded',function(e){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-rounded');
+}).on('mouseleave','.normal',function(e){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-circle');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-circle');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').addClass('img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').addClass('img-thumbnail');
 	}
 });
-$(document).on('click',".normaluploaded",function(e){
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-rounded');
+$(document).on('click',".normal",function(e){
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-rounded')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-rounded');
 	}
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-circle');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-circle')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-circle');
 	}	
-	if($(this).parent().parent().parent().parent().siblings().children('.uploadedimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings().children('.uploadedimage').removeClass('clicked-img-thumbnail');
+	if($(this).parent().parent().parent().parent().siblings().children('.image').hasClass('clicked-img-thumbnail')){
+		$(this).parent().parent().parent().parent().siblings().children('.image').removeClass('clicked-img-thumbnail');
 	}
 });	
 
-$("#urlimage2submit").click(function(){
-	dialog2.dialog("open");
-});
-var dialog2=$(".modal-input-for-generalimage").dialog({
-	autoOpen:false,
-	show:{
-		effect:"blind",
-		duration:1000
-	},
-	hide:{
-		effect:'explode',
-		duration:1000
-	},
-	height:300,
-	width:350,
-	modal:true,
-	buttons:{
-		"OK":function(e){
-			//e.preventDefault();			
-			addurlgeneralimage();
-		},
-		Cancel:function(){
-			dialog2.dialog("close");
-		}
-	},
-	close:function(){
-		form2[0].reset();
-	}
-});
-var form2=dialog2.find("form").on('submit',function(e){
-	e.preventDefault();
-	addurlgeneralimage();
-});
-function addurlgeneralimage(){
-	var imag='<div class="urlimagediv" style="cursor:move;position:absolute;top:'+y+'px;left:'+x+'px;width:100px;height:100px;"><a href="#" class="urlimageanchor"><img class="urlimage" alt="Sorry!Image not found" src="'+$(".url-input-for-general-image").val()+'" style="width:100%;height:100%;"></a>'+
-	'<a class="duplicate-url-anchor" href="#"></a>'+
-	'<div class="btn-group animated rubberBand editurlimage" style="display:none;">'+
-	'<button class="btn btn-primary opacity-urlimage">Change Opacity<span class="caret"></span></button>'+
-	'<div class="dropdown shape-urlimagedrop">'+
-	'<button class="btn btn-primary dropdown-toggle shape-urlimage" data-toggle="dropdown">Shape<span class="caret"></span></button>'+
-	'<ul class="dropdown-menu" role="menu">'+
-	'<li><a href="#" class="roundedurl">Rounded</a></li>'+
-	'<li><a href="#" class="circleurl">Circle</a></li>'+
-	'<li><a href="#" class="thumbnailurl">Thumbnail</a></li>'+
-	'<li><a href="#" class="normalurl">Normal</a></li>'+
-	'</ul></div>'+
-	'<div class="dropdown animate-urlimagedrop">'+
-	'<button class="btn btn-primary dropdown-toggle animate-urlimage" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
-	'<ul class="dropdown-menu" role="menu">'+
-	'<li><a href="#" class="animate_type_url">Animation Types</a></li>'+
-	'<li><a href="#" class="advance_animate_url">Advanced Animation Options</a></li>'+	
-	'</ul></div>'+
-	'<button class="btn btn-primary link-urlimage">Hyperlink<span class="caret"></span></button>'+
-	'<button class="btn btn-primary delete-urlimage"><i class="fa fa-trash-o"></i>  Delete Image</button>'+
-	'</div>'+
-	'</div>';
-	$("body").append(imag);
-	$(".urlimagediv").draggable().resizable();
-	x=x+50;
-	y=y+50;
-	dialog2.dialog("close");
-	return;
-}
-
-var url_opacity_input_seen=0;
-
-$(document).on('click','.urlimagediv',function(){
-	$('.editurlimage').fadeOut();
-	$(this).children('.editurlimage').fadeIn();
-	if(url_opacity_input_seen==1){
-		$('.opacity-urlimage-quantity').remove();
-		url_opacity_input_seen=0;
-	}
-});
-$(document).on('click','.delete-urlimage',function(){
-	if(url_opacity_input_seen==1){
-		$('.opacity-urlimage-quantity').remove();
-		url_opacity_input_seen=0;
-	}
-	$(this).parent().parent().remove();
-});
-$(document).on('click','.opacity-urlimage',function(e){
-	if(url_opacity_input_seen==0){
-		var inputOpacityurl='<input type="number" class="opacity-urlimage-quantity" min="0" max="10" value="'+$(this).parent().siblings().children('.urlimage').css('opacity')*10+'">';
-		$(".editurlimage").append(inputOpacityurl);
-		url_opacity_input_seen=1;
-	}
-	e.stopPropogation();
-});
-$(document).on('click','.opacity-urlimage-quantity',function(e){
-	e.stopPropogation();
-});
-$(document).on('change','.opacity-urlimage-quantity',function(e){
-	$(this).parent().siblings().children('.urlimage').css('opacity',$(this).val()/10);
-});
-$(document).on('click',function(e){
-		if(!$(e.target).closest(".urlimagediv").length){
-			$(".editurlimage").fadeOut();
-		}
-});
-$(document).on('click','.shape-urlimage',function(e){
-	if(url_opacity_input_seen==1){
-		$('.opacity-urlimage-quantity').remove();
-		url_opacity_input_seen=0;
-	}
-	e.stopPropogation();
-});
-$(document).on('click','.animate-urlimage',function(e){
-	if(url_opacity_input_seen==1){
-		$('.opacity-urlimage-quantity').remove();
-		url_opacity_input_seen=0;
-	}
-	e.stopPropogation();
-});
-
-var dialogl2=$(".modal_inputs_for_url_hyper").dialog({
-	autoOpen:false,
-	show:{
-		effect:"blind",
-		duration:1000
-	},
-	hide:{
-		effect:'explode',
-		duration:1000
-	},
-	width:350,
-	height:350,
-	modal:true,
-	buttons:{
-		//"OK":function(e){
-			//e.preventDefault();
-			//link_to_urlimage();
-		//}
-		Cancel:function(){
-			dialogl2.dialog("close");
-		}
-	},
-	close:function(){
-		forml2[0].reset();
-		$('.duplicate-url-anchor').removeClass('just_clicked_for_hyper');		
-	}
-});
-var forml2=dialogl2.find("form").on('submit',function(e){
-	e.preventDefault();
-	link_to_urlimage();
-});
-//var input_for_url_on_image_seen=0;
-$(document).on('click','.link-urlimage',function(e){
-	dialogl2.dialog("open");
-	$(this).parent().siblings('.duplicate-url-anchor').addClass('just_clicked_for_hyper');
-	e.stopPropogation();
-});
-function link_to_urlimage(){
-	if($('.url-for-hyperurlimage').val()!=""){
-		$('.just_clicked_for_hyper').attr('href',$('.url-for-hyperurlimage').val());
-	}
-	$('.just_clicked_for_hyper').attr('target',$('input[name="target_url"]:checked').val());
-	
-	$('.duplicate-url-anchor').removeClass('just_clicked_for_hyper');
-	dialogl2.dialog("close");
-}
 
 
-$(document).on('mouseenter',".roundedurl",function(){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-circle');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-thumbnail');
-	}
-	$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-rounded');
-}).on('mouseleave','.roundedurl',function(){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-circle');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-thumbnail');
-	}	
-	if(!$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-rounded');
-	}	
-});
-$(document).on('click',".roundedurl",function(e){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-circle');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-thumbnail');
-	}
-	$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('clicked-img-rounded');
-	e.stopPropogation();
-});
-$(document).on('mouseenter',".circleurl",function(){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-thumbnail');
-	}
-	$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-circle');
-}).on('mouseleave','.circleurl',function(){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-thumbnail');
-	}
-	if(!$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-circle');
-	}
-});
-$(document).on('click',".circleurl",function(e){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-thumbnail');
-	}	
-	$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('clicked-img-circle');
-	e.stopPropogation();
-});
-$(document).on('mouseenter',".thumbnailurl",function(){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-circle');
-	}
-	$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-thumbnail');
-}).on('mouseleave','.thumbnailurl',function(){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-circle');
-	}
-	if(!$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-thumbnail');
-	}
-});
-$(document).on('click',".thumbnailurl",function(e){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-circle');
-	}	
-	$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('clicked-img-thumbnail');
-	e.stopPropogation();
-});
-
-$(document).on('mouseenter',".normalurl",function(e){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded') ){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-circle');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('img-thumbnail');
-	}
-}).on('mouseleave','.normalurl',function(e){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-circle');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').addClass('img-thumbnail');
-	}
-});
-$(document).on('click',".normalurl",function(e){
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-rounded')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-rounded');
-	}
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-circle')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-circle');
-	}	
-	if($(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').hasClass('clicked-img-thumbnail')){
-		$(this).parent().parent().parent().parent().siblings('.urlimageanchor').children('.urlimage').removeClass('clicked-img-thumbnail');
-	}
-});	
 
 
 
@@ -1268,11 +1060,11 @@ function addicon(){
 	'<a class="duplicate-icon-anchor" href="#"></a>'+
 	'<div class="btn-group animated rubberBand editicon" style="display:none;">'+
 	'<button class="btn btn-primary sizencolor-icon">Size and Color<span class="caret"></span></button>'+	
-	'<div class="dropdown animate-icondrop">'+
-	'<button class="btn btn-primary dropdown-toggle animate-icon" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
-	'<li><a href="#" class="animate_type_icon">Animation Types</a></li>'+
-	'<li><a href="#" class="advance_animate_icon">Advanced Animation Options</a></li>'+	
-	'<li><a href="#" class="yoyo"></a></li>'+
+	'<div class="dropdown animate-drop">'+
+	'<button class="btn btn-primary dropdown-toggle animateadd" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
+	'<ul class="dropdown-menu" role="menu">'+
+	'<li><a href="#" class="animate_type">Animation Types</a></li>'+
+	'<li><a href="#" class="advance_animate">Advanced Animation Options</a></li>'+	
 	'</ul></div>'+
 	'<button class="btn btn-primary link-icon">Hyperlink<span class="caret"></span></button>'+
 	'<button class="btn btn-primary delete-icon"><i class="fa fa-trash-o"></i>  Delete Icon</button>'+
@@ -1280,7 +1072,8 @@ function addicon(){
 	'</div>';
 
 	$("body").append(iconvar);
-	//$('.icondiv').css('width',$('.iconic').css('width'));
+	$('.icondiv').css('width','50px');
+	$('.icondiv').css('height','50px');
 	$('.icondiv').draggable();
 	}
 
@@ -1289,11 +1082,11 @@ function addicon(){
 	'<a class="duplicate-icon-anchor" href="#"></a>'+
 	'<div class="btn-group animated rubberBand editicon" style="display:none;">'+
 	'<button class="btn btn-primary sizencolor-icon">Size and Color<span class="caret"></span></button>'+
-	'<div class="dropdown animate-icondrop">'+
-	'<button class="btn btn-primary dropdown-toggle animate-icon" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
+	'<div class="dropdown animate-drop">'+
+	'<button class="btn btn-primary dropdown-toggle animateadd" data-toggle="dropdown">Animate<span class="caret"></span></button>'+
 	'<ul class="dropdown-menu" role="menu">'+
-	'<li><a href="#" class="animate_type_icon">Animation Types</a></li>'+
-	'<li><a href="#" class="advance_animate_icon">Advanced Animation Options</a></li>'+	
+	'<li><a href="#" class="animate_type">Animation Types</a></li>'+
+	'<li><a href="#" class="advance_animate">Advanced Animation Options</a></li>'+	
 	'</ul></div>'+
 	'<button class="btn btn-primary link-icon">Hyperlink<span class="caret"></span></button>'+
 	'<button class="btn btn-primary delete-icon"><i class="fa fa-trash-o"></i>  Delete Icon</button>'+
@@ -1301,6 +1094,8 @@ function addicon(){
 	'</div>';
 
 	$("body").append(iconvar);
+	$('.icondiv').css('width','50px');
+	$('.icondiv').css('height','50px');
 	$('.icondiv').draggable();
 	}
 	dialogicon.dialog("close");
@@ -1412,16 +1207,10 @@ function link_to_icon(){
 $(".click_here_for_link").click(function(){
 	var len=$('.urlimageanchor').length,i=0;		
 		while(i<len){
-			$($('.urlimageanchor')[i]).attr('href',$($('.urlimageanchor')[i]).siblings('.duplicate-url-anchor').attr('href'));
-			$($('.urlimageanchor')[i]).attr('target',$($('.urlimageanchor')[i]).siblings('.duplicate-url-anchor').attr('target'));
+			$($('.imageanchor')[i]).attr('href',$($('.imageanchor')[i]).siblings('.duplicate-anchor').attr('href'));
+			$($('.imageanchor')[i]).attr('target',$($('.imageanchor')[i]).siblings('.duplicate-anchor').attr('target'));
 			i++;
 		}
-		var leng=$('.uploadedimageanchor').length,j=0;alert(leng);
-		while(j<leng){
-			$('.uploadedimageanchor').eq(j).attr('href',$('.uploadedimageanchor').eq(j).siblings('.duplicate-uploaded-anchor').attr('href'));
-			$('.uploadedimageanchor').eq(j).attr('target',$('.uploadedimageanchor').eq(j).siblings('.duplicate-uploaded-anchor').attr('target'));
-			j++;
-		}alert(j);
 		var lengt=$('.iconanchor').length,k=0;
 		while(k<lengt){
 			$($('.iconanchor')[k]).attr({
