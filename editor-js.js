@@ -1159,7 +1159,7 @@ $(document).on('click', '.rectangular-box',function(e){
 		var button_group='<div class="btn-group box-option-button draggable" style="opacity:0.9;position:absolute;top:'+ (+offset.top + +"20" + +height) +'px;left:'+ (+offset.left - +"100") +'px;">\
   <button type="button" class="btn btn-primary box-option-edit " >Edit</button>\
   <div class="btn-group">\
-    <button type="button" class="btn btn-primary dropdown-toggle animatebutton " data-toggle="dropdown" >\
+    <button type="button" class="btn btn-primary dropdown-toggle animatebutton" data-toggle="dropdown" >\
     Animate <span class="caret"></span></button>\
     <ul class="dropdown-menu" role="menu">\
       <li><a href="#" class="animate_type">Animation Types</a></li>\
@@ -1182,6 +1182,52 @@ var isAdvancedOption=false;
 $(document).on('click', '.animatebutton',function(e){
 	e.stopPropogation();
 });
+
+var dialogl3=$(".modal_inputs_for_box_hyper").dialog({
+	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
+	width:350,
+	height:350,
+	modal:true,
+	buttons:{
+		//"OK":function(e){
+			//e.preventDefault();
+			//link_to_urlimage();
+		//}
+		Cancel:function(){
+			dialogl3.dialog("close");
+		}
+	},
+	close:function(){
+		forml3[0].reset();
+		$('.duplicate-box-anchor').removeClass('just_clicked_for_hyper');
+	}
+});
+var forml3=dialogl3.find("form").on('submit',function(e){
+	e.preventDefault();
+	link_to_box();
+});
+$(document).on('click','.link-box',function(e){
+	//$(this).parent().siblings('.duplicate-icon-anchor').addClass('just_clicked_for_hyperic');
+	$('.'+previous_clicked_classname).addClass('just_clicked_for_hyper')
+	dialogl3.dialog("open");
+	e.stopPropogation();
+});
+function link_to_icon(){
+	if($('.url-for-box-hyper').val()!=""){
+		$('.just_clicked_for_hyper').attr('href',$('.url-for-box-hyper').val());
+	}
+	$('.just_clicked_for_hyper').attr('target',$('input[name="target_box"]:checked').val());
+	$('.duplicate-box-anchor').removeClass('just_clicked_for_hyper');
+	dialogl3.dialog("close");
+}
 
 $.fn.extend({
     animateCss: function (animationName) {
@@ -1712,7 +1758,8 @@ if(($(this).hasClass('animationOnlyOnce') && !$(this).data('hasAnimationHappened
 
     	$(".text-option-button").remove();
     	$(".text-option-edit2").remove();
-			var box='<div class="'+mm+' rectangular-box" contenteditable=false style=" cursor:move; position:absolute;top:'+y+'px;left:'+x+'px;height:50px;width:75px;border-style: solid;border-width: 2px;opacity:1;box-shadow: 0px 0px 0px 0px"></div>';
+			var box='<a class="'+mm+'boxanchor"<div class="'+mm+' rectangular-box" contenteditable=false style=" cursor:move; position:absolute;top:'+y+'px;left:'+x+'px;height:50px;width:75px;border-style: solid;border-width: 2px;opacity:1;box-shadow: 0px 0px 0px 0px"></div></a>'+
+			'<a href="#" class="duplicate-box-anchor"></a>';
 	$("body").append(box);
 	$("."+mm).draggable().resizable();
 	
@@ -1749,10 +1796,18 @@ function myFunction(){
 		var lengt=$('.iconanchor').length,k=0;
 		while(k<lengt){
 			$($('.iconanchor')[k]).attr({
-				'href':$('.duplicate-icon-anchor').eq(k).attr('href'),
-				'target':$('.duplicate-icon-anchor').eq(k).attr('target')
+				'href':$('.iconanchor').eq(k).siblings('.duplicate-anchor').attr('href'),
+				'target':$('.iconanchor').eq(k).siblings('.duplicate-anchor').attr('target')//////////////////changed
 			});
 			k++;
+		}
+		var length=$('.boxanchor').length,j=0;
+		while(j<length){
+			$($('.boxanchor')[j]).attr({
+				'href':$('.boxanchor').eq(j).siblings('.duplicate-anchor').attr('href'),
+				'target':$('.boxanchor').eq(j).siblings('.duplicate-anchor').attr('target')//////////////////added
+			});
+			j++;
 		}
     	
 document.getElementById("success").value=document.getElementById("body").innerHTML;document.getElementById("hidform").submit();}

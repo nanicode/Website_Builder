@@ -17,8 +17,9 @@
 <link rel="stylesheet" href="http://s.mlcdn.co/animate.css">
 <link rel="stylesheet" href=" http://csshake.surge.sh/csshake.min.css">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script type="text/javascript">
+<!--<script type="text/javascript">
 	function saveSelection() {
     if (window.getSelection) {
         sel = window.getSelection();
@@ -106,7 +107,7 @@ function createLink() {
     //    links[i].style.fontWeight = "bold";
   //  }
 }
-</script>
+</script>-->
 </head>
 
 <body class="buddy">
@@ -189,8 +190,8 @@ function createLink() {
 		    		<div class="box-optionn">
 			    		<a href="#">Box</a>
 			    			<div class="dropdown-content-subcontent-box">
-			    				<a href="#">Li8nk 2</a>
-			    				<a href="#">Link 3</a>
+			    				
+			    				<a href="#" class="Rectangular-Box">Rectangular Box</a>
 			    			</div>
 		    		</div>
 
@@ -209,9 +210,6 @@ function createLink() {
 	</div>
 	<hr>
 </div>
-
-<input type="text" id="url" size="30" value="http://stackoverflow.com/">
-<input type="button" value="Link" onclick="createLink()">
 
 <!--Starts here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <div class="modal-input-for-bg-sizes" title="Size the background image">
@@ -274,7 +272,7 @@ function createLink() {
 	</form>
 </div>
 
-<div class="modal_inputs_for_hyper" title="Set image as a hyperlink">
+<div class="modal_inputs_for_hyper" title="Set a hyperlink">
 	<form>
 	<label>URL</label><br>
 	<input type="url" placeholder="type URL" class="url-for-hyperimage" style="width:90%;"><br><br><br><br>
@@ -306,16 +304,28 @@ function createLink() {
 </form>
 </div>
 
-<div class="modal_inputs_for_icon_hyper" title="Set icon as a hyperlink">
+<div class="modal_inputs_for_hypertext" title="Set text as a hyperlink">
 	<form>
 	<label>URL</label><br>
-	<input type="url" placeholder="type URL" class="url-for-hypericon" style="width:90%;"><br><br>
+	<input type="url" placeholder="type URL" class="url-for-hypertext" style="width:90%;"><br><br>
 	<label>Open in</label><br>
-	<input type="radio" name="target_icon" value="_blank" checked>New window<br>
-	<input type="radio" name="target_icon" value="_self">Same window
+	<input type="radio" name="target_text" value="_blank" checked>New window<br>
+	<input type="radio" name="target_text" value="_self">Same window
 	<input type="submit" style="display:none;">
 	</form>
 </div>
+
+<div class="modal_inputs_for_box_hyper" title="Set box as a hyperlink">
+	<form>
+	<label>URL</label><br>
+	<input type="url" placeholder="type URL" class="url-for-box-hyper" style="width:90%;"><br><br>
+	<label>Open in</label><br>
+	<input type="radio" name="target_box" value="_blank" checked>New window<br>
+	<input type="radio" name="target_box" value="_self">Same window
+	<input type="submit" style="display:none;">
+	</form>
+</div>
+
 <!--Till here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 
 

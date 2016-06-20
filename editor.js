@@ -366,7 +366,7 @@ function addurlbgimage(){
 			addurlgeneralimage();
 		});
 		function addurlgeneralimage(){
-			var imag='<div class="imagediv" style="cursor:move;position:absolute;top:'+y+'px;left:'+x+'px;width:100px;height:100px;"><a href="#" style="cursor:move;" class="imageanchor"><img class="image" alt="Sorry!Image not found" src="'+$(".-input-for-general-image").val()+'" style="width:100%;height:100%;"></a>'+
+			var imag='<div class="imagediv" style="cursor:move;position:absolute;top:'+y+'px;left:'+x+'px;width:100px;height:100px;"><a href="#" style="cursor:move;" class="imageanchor"><img class="image" alt="Sorry!Image not found" src="'+$(".url-input-for-general-image").val()+'" style="width:100%;height:100%;"></a>'+
 			'<a class="duplicate-anchor" href="#" style="cursor:move;"></a>'+
 			'<div class="btn-group editimage" style="display:none;">'+
 			'<button class="btn btn-primary opacity-image">Change Opacity<span class="caret"></span></button>'+
@@ -490,7 +490,7 @@ function link_to_image(){
 	}	
 	$('.just_clicked_for_hyper').attr('target',$('input[name="target"]:checked').val());
 		
-	$('.duplicate-anchor').removeClass('just_clicked_for_hyper');
+	//$('.duplicate-anchor').removeClass('just_clicked_for_hyper');
 	dialogl1.dialog("close");
 }
 
@@ -951,51 +951,6 @@ function sncicon(){
 	$('.iconanchor').removeClass('justclickedic');	
 	dialogsnc.dialog("close");
 }
-
-/*var dialogl3=$(".modal_inputs_for_icon_hyper").dialog({
-	autoOpen:false,
-	show:{
-		effect:"blind",
-		duration:1000
-	},
-	hide:{
-		effect:'explode',
-		duration:1000
-	},
-	width:350,
-	height:350,
-	modal:true,
-	buttons:{
-		//"OK":function(e){
-			//e.preventDefault();
-			//link_to_urlimage();
-		//}
-		Cancel:function(){
-			dialogl3.dialog("close");
-		}
-	},
-	close:function(){
-		forml3[0].reset();
-		$('.duplicate-icon-anchor').removeClass('just_clicked_for_hyperic');
-	}
-});
-var forml3=dialogl3.find("form").on('submit',function(e){
-	e.preventDefault();
-	link_to_icon();
-});
-$(document).on('click','.link-icon',function(e){
-	$(this).parent().siblings('.duplicate-icon-anchor').addClass('just_clicked_for_hyperic');
-	dialogl3.dialog("open");
-	e.stopPropogation();
-});
-function link_to_icon(){
-	if($('.url-for-hypericon').val()!=""){
-		$('.just_clicked_for_hyperic').attr('href',$('.url-for-hypericon').val());
-	}
-	$('.just_clicked_for_hyperic').attr('target',$('input[name="target_icon"]:checked').val());
-	$('.duplicate-icon-anchor').removeClass('just_clicked_for_hyperic');
-	dialogl3.dialog("close");
-}*/
 
 /*$(".click_here_for_link").click(function(){
 	var len=$('.imageanchor').length,i=0;		
