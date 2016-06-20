@@ -1216,11 +1216,11 @@ var forml3=dialogl3.find("form").on('submit',function(e){
 });
 $(document).on('click','.link-box',function(e){
 	//$(this).parent().siblings('.duplicate-icon-anchor').addClass('just_clicked_for_hyperic');
-	$('.'+previous_clicked_classname).addClass('just_clicked_for_hyper')
+	alert(previous_clicked_classname);$('.'+previous_clicked_classname).children('.duplicate-box-anchor').addClass('just_clicked_for_hyper')
 	dialogl3.dialog("open");
 	e.stopPropogation();
 });
-function link_to_icon(){
+function link_to_box(){
 	if($('.url-for-box-hyper').val()!=""){
 		$('.just_clicked_for_hyper').attr('href',$('.url-for-box-hyper').val());
 	}
@@ -1286,7 +1286,7 @@ isAdvancedOption=false;
 e.stopPropogation();
 
 
-});*/
+});
 
 
 $(document).on('click', '.animation-advanced-options-once-select',function(e){
@@ -1358,7 +1358,7 @@ $(document).on('change', '.animation-advanced-options-iteration-select',function
 
 	e.stopPropogation();
 });
-
+*/
 
 
 
@@ -1711,7 +1711,7 @@ $(document).on('click', '.jello',function(e){
 */
 
 
-$(window).scroll(function() {
+/*$(window).scroll(function() {
 			//alert("vs");
 
 		$('.isAnnimated').each(function(){
@@ -1745,7 +1745,7 @@ if(($(this).hasClass('animationOnlyOnce') && !$(this).data('hasAnimationHappened
 		});
 	});
 
-
+*/
 	$('.Rectangular-Box').click(function(){
 		$(this).data=('clicked',true);
 		x=x+50;
@@ -1758,8 +1758,8 @@ if(($(this).hasClass('animationOnlyOnce') && !$(this).data('hasAnimationHappened
 
     	$(".text-option-button").remove();
     	$(".text-option-edit2").remove();
-			var box='<a class="'+mm+'boxanchor"<div class="'+mm+' rectangular-box" contenteditable=false style=" cursor:move; position:absolute;top:'+y+'px;left:'+x+'px;height:50px;width:75px;border-style: solid;border-width: 2px;opacity:1;box-shadow: 0px 0px 0px 0px"></div></a>'+
-			'<a href="#" class="duplicate-box-anchor"></a>';
+			var box='<div class="'+mm+' rectangular-box" contenteditable=false style="height:50px;width:75px;cursor:move; position:absolute;top:'+y+'px;left:'+x+'px;border-style: solid;border-width: 2px;opacity:1;box-shadow: 0px 0px 0px 0px;"><a class="boxanchor" href="#" style="display:block;height:100%;width:100%;"></a>'+
+			'<a href="#" class="duplicate-box-anchor"></a></div>';
 	$("body").append(box);
 	$("."+mm).draggable().resizable();
 	
@@ -1804,8 +1804,12 @@ function myFunction(){
 		var length=$('.boxanchor').length,j=0;
 		while(j<length){
 			$($('.boxanchor')[j]).attr({
-				'href':$('.boxanchor').eq(j).siblings('.duplicate-anchor').attr('href'),
-				'target':$('.boxanchor').eq(j).siblings('.duplicate-anchor').attr('target')//////////////////added
+				'href':$('.boxanchor').eq(j).siblings('.duplicate-box-anchor').attr('href'),
+				'target':$('.boxanchor').eq(j).siblings('.duplicate-box-anchor').attr('target')//////////////////added
+			});
+			$('.boxanchor').eq(j).css({
+				"height":$(this).parent().css("height"),
+				"width":$(this).parent().css("width")
 			});
 			j++;
 		}
