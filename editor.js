@@ -1,68 +1,8 @@
 $(document).ready(function(){
 
-	$(".text_header").hide();
 
-    $(".header").mouseenter(function(){
-        $(".text_header").show();
-    });
-    $(".header").mouseleave(function(){
-        $(".text_header").hide();
-	 });
-
-    $(".text_footer").hide();
-
-    $(".footer").mouseenter(function(){
-        $(".text_footer").show();
-    });
-    $(".footer").mouseleave(function(){
-        $(".text_footer").hide();
-	 });
-
-    $(".text_page").hide();
-
-    $(".page").mouseenter(function(){
-        $(".text_page").show();
-    });
-    $(".page").mouseleave(function(){
-        $(".text_page").hide();
-	 });
-    $('.dropdown-content-subcontent-text').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-background').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-image').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-video').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-menu').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-list').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-box').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-strip').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-button').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-image').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	$('.dropdown-content-subcontent-video').hover(function(){
-    $(this).parent().toggleClass('hover');
-	});
-	
-	var x=400;var y=300;
-		var mm=0;
-
+var x=400;
+var y=300;
 	var body_has_bgimage=false;	
 		$("#bg").change(function(){
 			$("body").css("background-color",$("#bg").val());
@@ -78,7 +18,7 @@ $(document).on('click',function(e){
 	
 	var click_x=e.pageX,click_y=e.pageY;
 		$(".editbg").remove();
-	if(!$(e.target).closest(".imagediv").length && !$(e.target).closest(".icondiv").length && !$(e.target).is(".fbviddiv") && !$(e.target).is(".youtubeviddiv") && body_has_bgimage){
+	if(!$(e.target).closest(".imagediv").length && !$(e.target).closest(".icondiv").length && !$(e.target).is(".fbviddiv") && !$(e.target).is(".youtubeviddiv") && !$(e.target).closest("p").length && !$(e.target).closest("h2").length && !$(e.target).closest("h4").length && !$(e.target).closest(".list").length && !$(e.target).closest(".rectangular-box").length && body_has_bgimage){
 		var bgoptions='<div class="btn-group editbg" style="position:absolute;left:'+click_x+'px;top:'+click_y+'px;">'+		
 		'<button class="btn btn-primary position-bgimage">Background Position</button>'+
 		'<div class="dropdown">'+
@@ -462,8 +402,7 @@ function addurlbgimage(){
 
 		$(document).on('click','.imagediv',function(e){
 
-			$('.imagediv').removeClass("just_clicked_animate");
-			$('.icondiv').removeClass("just_clicked_animate");
+			$(".just_clicked_animate").removeClass("just_clicked_animate");
 			$(this).addClass("just_clicked_animate");
 	
 				$(".editimage").slideUp();
@@ -904,8 +843,8 @@ $("input[name='type_of_icon'][value='material']").click(function(){
 function addicon(){
 	
 	if($("input[name='type_of_icon']:checked").val()=="fa" && $(".text_for_fa").val()!=""){
-		var iconvar='<div class="icondiv"><a href="#" class="iconanchor"><i class="img-circle iconic '+$(".text_for_fa").val()+'" style="font-size:30px;color:black;"></i></a>'+
-	'<a class="duplicate-icon-anchor" href="#"></a>'+
+		var iconvar='<div class="icondiv" style="height:auto;width:auto; position:absolute; top:'+x+'px; left:'+y+'px;"><a href="#" class="iconanchor"><i class="iconic '+$(".text_for_fa").val()+'" style="font-size:30px;color:black;"></i></a>'+
+	'<a class="duplicate-anchor" href="#"></a>'+
 	'<div class="btn-group editicon" style="display:none;">'+
 	'<button class="btn btn-primary sizencolor-icon">Size and Color<span class="caret"></span></button>'+	
 	'<div class="dropdown animate-drop">'+
@@ -914,7 +853,7 @@ function addicon(){
 	'<li><a href="#" class="animate_type">Animation Types</a></li>'+
 	'<li><a href="#" class="advance_animate">Advanced Animation Options</a></li>'+	
 	'</ul></div>'+
-	'<button class="btn btn-primary link-icon">Hyperlink<span class="caret"></span></button>'+
+	'<button class="btn btn-primary link-image">Hyperlink<span class="caret"></span></button>'+
 	'<button class="btn btn-primary delete-icon"><i class="fa fa-trash-o"></i>  Delete Icon</button>'+
 	'</div>'+
 	'</div>';
@@ -926,8 +865,8 @@ function addicon(){
 	}
 
 	if($("input[name='type_of_icon']:checked").val()=="material" && $(".text_for_mi").val()!=""){
-		var iconvar='<div class="icondiv" style="height:auto;width:auto;"><a href="#" class="iconanchor"><i class="infinite iconic material-icons" style="color:black;font-size:30px;">'+$(".text_for_mi").val()+'</i></a>'+
-	'<a class="duplicate-icon-anchor" href="#"></a>'+
+		var iconvar='<div class="icondiv" style="height:auto;width:auto; position:absolute; top:'+x+'px; left:'+y+'px;"><a href="#" class="iconanchor"><i class="iconic material-icons" style="color:black;font-size:30px;">'+$(".text_for_mi").val()+'</i></a>'+
+	'<a class="duplicate-anchor" href="#"></a>'+
 	'<div class="btn-group editicon" style="display:none;">'+
 	'<button class="btn btn-primary sizencolor-icon">Size and Color<span class="caret"></span></button>'+
 	'<div class="dropdown animate-drop">'+
@@ -936,7 +875,7 @@ function addicon(){
 	'<li><a href="#" class="animate_type">Animation Types</a></li>'+
 	'<li><a href="#" class="advance_animate">Advanced Animation Options</a></li>'+	
 	'</ul></div>'+
-	'<button class="btn btn-primary link-icon">Hyperlink<span class="caret"></span></button>'+
+	'<button class="btn btn-primary link-image">Hyperlink<span class="caret"></span></button>'+
 	'<button class="btn btn-primary delete-icon"><i class="fa fa-trash-o"></i>  Delete Icon</button>'+
 	'</div>'+
 	'</div>';
@@ -950,8 +889,8 @@ function addicon(){
 	return;
 }
 $(document).on('click','.icondiv',function(e){
-	$('.imagediv').removeClass("just_clicked_animate");
-	$('.icondiv').removeClass("just_clicked_animate");
+	
+	$(".just_clicked_animate").removeClass("just_clicked_animate");
 	$(this).addClass("just_clicked_animate");
 
 	$('.editicon').fadeOut();
@@ -1013,7 +952,7 @@ function sncicon(){
 	dialogsnc.dialog("close");
 }
 
-var dialogl3=$(".modal_inputs_for_icon_hyper").dialog({
+/*var dialogl3=$(".modal_inputs_for_icon_hyper").dialog({
 	autoOpen:false,
 	show:{
 		effect:"blind",
@@ -1056,9 +995,9 @@ function link_to_icon(){
 	$('.just_clicked_for_hyperic').attr('target',$('input[name="target_icon"]:checked').val());
 	$('.duplicate-icon-anchor').removeClass('just_clicked_for_hyperic');
 	dialogl3.dialog("close");
-}
+}*/
 
-$(".click_here_for_link").click(function(){
+/*$(".click_here_for_link").click(function(){
 	var len=$('.imageanchor').length,i=0;		
 		while(i<len){
 			$($('.imageanchor')[i]).attr('href',$($('.imageanchor')[i]).siblings('.duplicate-anchor').attr('href'));
@@ -1073,7 +1012,7 @@ $(".click_here_for_link").click(function(){
 			});
 			k++;
 		}
-});
+});*/
 
 //Animations for Image and Icon.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1109,6 +1048,8 @@ $.fn.extend({
 
 $(document).on('click', '.advance_animate',function(e){
 //alert("cd");
+$(".box-option-button").remove();
+$(".text-option-button").remove();
 $(".editicon").fadeOut();
 $(".editimage").slideUp();
 var offset=$(".just_clicked_animate").offset();
@@ -1138,7 +1079,7 @@ isAdvancedOption=false;
 e.preventDefault();e.stopPropogation();
 });
 $(document).on('click',function(e){
-	if(!$(e.target).closest('.animation-advanced-options').length){
+	if(!$(e.target).closest('.animation-advanced-options').length && !$(e.target).closest(".just_clicked_animate").length){
 		$('.animation-advanced-options').remove();
 		isAdvancedOption=false;
 	}
@@ -1217,6 +1158,8 @@ $(document).on('change', '.animation-advanced-options-iteration-select',function
 
 $(document).on('click', '.animate_type',function(e){
 //alert("cd");
+$(".box-option-button").remove();
+$(".text-option-button").remove();
 $(".editicon").fadeOut();
 $(".editimage").slideUp();
 var offset=$(".just_clicked_animate").offset();
@@ -1272,7 +1215,8 @@ e.stopPropogation();
 });
 
 $(document).on('click',function(e){
-	if(!$(e.target).closest('.animation-type-options').length){
+	if(!$(e.target).closest('.animation-type-options').length && !$(e.target).closest('.just_clicked_animate').length){
+		text_option_button_data=false;
 		$('.animation-type-options').remove();
 	}
 });
@@ -1332,6 +1276,8 @@ $(document).on('mouseleave', '.animationType',function(e){
 
 	});
 
+
+
 $(document).on('mouseenter', '.pulse',function(e){
 	$(".just_clicked_animate").data('animation_playing','pulse');
 	$(".just_clicked_animate").animateCss('pulse');
@@ -1353,7 +1299,7 @@ $(document).on('mouseenter', '.fadeIn',function(e){
 $(document).on('mouseenter', '.rollIn',function(e){
 	$(".just_clicked_animate").data('animation_playing','rollIn');
 	$(".just_clicked_animate").animateCss('rollIn');
-	//e.stopPropogation();
+	e.stopPropogation();
 
 	});
 $(document).on('mouseenter', '.zoomIn',function(e){
@@ -1423,6 +1369,16 @@ $(document).on('mouseenter', '.jello',function(e){
 
 	});
 
+$(document).on('click', '.none',function(e){
+	$(".just_clicked_animate").data('animation_name','none');
+	$(".just_clicked_animate").addClass('isAnnimated');
+	$('.animationType').css("background-color","#d3d3d3");
+	$(this).css("background-color","#7ACEF4");
+
+
+	e.stopPropogation();
+
+	});
 
 $(document).on('click', '.pulse',function(e){
 	$(".just_clicked_animate").data('animation_name','pulse');
@@ -1575,8 +1531,10 @@ $(window).scroll(function() {
 									//alert(imagePos);
 
 			var topOfWindow = $(window).scrollTop();
+			//alert($(window).height());
+			var windowHeight=$(window).height();
 			//alert(topOfWindow);
-				if ((imPos < topOfWindow+800)&&(imPos > topOfWindow)&&(!$(this).data('played'))) {
+				if ((imPos < topOfWindow+windowHeight-($(this).innerHeight()))&&(imPos > topOfWindow)&&(!$(this).data('played'))) {
 							//alert("vs");	
 						if($(this).data('animation_name')!='none')
 					{	var name=$(this).data('animation_name')	;
@@ -1601,3 +1559,8 @@ $(window).scroll(function() {
 
 
 });
+
+function info(){
+	alert("info");
+document.getElementById("modal").innerHTML="<p class='modal-content'><span class='modal-title'>Webified</span><br><span class='modal-heading'>Are you Sure?</span><br>This page WILL be deleted now and you will be redirected to home page<br><br><span onclick='delFinal();' cursor='auto' style=' text-decoration:none; width:150px; display:inline-block;color:green;font-size: 25px' class='glyphicon glyphicon-ok'></span><span onclick='removeBox()' style='display: inline-block;color:red;width:150px; font-size:25px' class='glyphicon glyphicon-remove'></span><br><br></p></div>";
+}
