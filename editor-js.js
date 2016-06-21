@@ -56,6 +56,15 @@ $(document).ready(function(){
 	var x=400;var y=300;
 		var mm=0;
 
+	function rgb2hex(rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    }
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+	}
+
+
 	$('.text-large-heading').click(function(){
 		$(this).data=('clicked',true);
 		x=x+50;
@@ -65,7 +74,7 @@ $(document).ready(function(){
 
 	$('.text-large-heading').mouseenter(function(){
 		
-			var text_large_heading_text='<div class="'+mm+'" style="font-family:verdana;font-size:17px; font-weight:normal; position:absolute;top:'+y+'px;left:'+x+'px;"><h2 contenteditable=tRuE style="display:block; height:90%; width:95%;font-weight: normal;">\
+			var text_large_heading_text='<div class="'+mm+'" style="font-family:verdana;border:.5px solid bLuE;font-size:17px; font-weight:normal; position:absolute;top:'+y+'px;left:'+x+'px;"><h2 contenteditable=tRuE style="display:block; height:90%; width:95%;font-weight: normal;">\
   This is a heading</h2></div>';
 	$("body").append(text_large_heading_text);
 		$("."+mm).draggable({cancel: "h2"} ).resizable();
@@ -94,7 +103,7 @@ $(document).ready(function(){
 
 	$('.text-small-heading').mouseenter(function(){
 		
-			var text_small_heading_text='<div class="'+mm+' draggable"  style="font-family:verdana; font-weight: normal; font-size: 15px; position:absolute;top:'+y+'px;left:'+x+'px;"><h4 contenteditable=tRuE style="display:block; height:90%; width:95%;font-weight: normal;">\
+			var text_small_heading_text='<div class="'+mm+' draggable"  style="font-family:verdana;border:.5px solid bLuE; font-weight: normal; font-size: 15px; position:absolute;top:'+y+'px;left:'+x+'px;"><h4 contenteditable=tRuE style="display:block; height:90%; width:95%;font-weight: normal;">\
   This is a heading</h4></div>';
 	$("body").append(text_small_heading_text);
 		$("."+mm).draggable({cancel: "h4"} ).resizable();
@@ -124,7 +133,7 @@ $(document).ready(function(){
 
 	$('.text-large-paragraph').mouseenter(function(){
 		
-			var text_large_paragraph_text='<div class="'+mm+'" style="font-size: 13px; font-family:verdana; position:absolute;top:'+y+'px;left:'+x+'px;font-size:110%"><p contenteditable=tRuE style="display:block; height:90%; width:95%;font-weight: normal;">\
+			var text_large_paragraph_text='<div class="'+mm+'" style="font-size: 13px;border:.5px solid bLuE; font-family:verdana; position:absolute;top:'+y+'px;left:'+x+'px;font-size:110%"><p contenteditable=tRuE style="display:block; height:90%; width:95%;font-weight: normal;">\
   This is a paragraph</p></div>';
 	$("body").append(text_large_paragraph_text);
 	$("."+mm).draggable({cancel: "p"} ).resizable();
@@ -154,7 +163,7 @@ $(document).ready(function(){
 
 	$('.text-small-paragraph').mouseenter(function(){
 		
-			var text_small_paragraph_text='<div class="'+mm+'" style="font-size: 10px; font-family:verdana; position:absolute;top:'+y+'px;left:'+x+'px;font-size:80%"><p contenteditable=tRuE style="display:block; height:90%; width:95%;font-weight: normal;">\
+			var text_small_paragraph_text='<div class="'+mm+'" style="font-size: 10px;border:.5px solid bLuE; font-family:verdana; position:absolute;top:'+y+'px;left:'+x+'px;font-size:80%"><p contenteditable=tRuE style="display:block; height:90%; width:95%;font-weight: normal;">\
   This is a paragraph</p></div>';
 	$("body").append(text_small_paragraph_text);
 		$("."+mm).draggable({cancel: "p"}).resizable();
@@ -210,6 +219,7 @@ $(document).on('click', function(e) {
 
   previous_clicked_classname="-1";
     if(text_option_button_data){
+    	$(".button-option-button").remove();
     	$(".text-option-button").remove();
     	$(".text-option-edit2").remove();
     	$(".box-option-button").remove();
@@ -230,13 +240,28 @@ $(document).on('click', 'p, .list',function(e){
 		$(".just_clicked_animate").removeClass("just_clicked_animate");
 		$(this).addClass("just_clicked_animate");
 
+		var previous_previous_clicked_classname=previous_clicked_classname;
+
+
 		var forclass=($(this).closest('div').attr("class"));
 		previous_clicked_classname=forclass.substr(0,forclass.indexOf(' '));
+
+		if(previous_previous_clicked_classname!="-1"&&previous_previous_clicked_classname!=previous_clicked_classname)
+		{
+			text_option_button_data=false;
+	    	$(".button-option-button").remove();
+	    	$(".text-option-button").remove();
+	    	$(".text-option-edit2").remove();
+	    	$(".box-option-button").remove();
+	    	$(".box-option-edit2").remove();
+
+		}
+
 		var offset=$("."+previous_clicked_classname).offset();
 		var height=$("."+previous_clicked_classname).innerHeight();
 		if(!text_option_button_data){
 			text_option_button_data=true;
-		var button_group='<div class="btn-group text-option-button draggable" style="opacity:0.9;position:absolute;top:'+ (+offset.top + +"20" + +height) +'px;left:'+ (+offset.left - +"50") +'px;right:'+(400)+'px;">\
+		var button_group='<div class="btn-group text-option-button draggable" style="opacity:0.9;position:absolute;top:'+ (+offset.top + +"20" + +height) +'px;left:'+ (+offset.left + +"50") +'px;right:'+(400)+'px;">\
   <button type="button" class="btn btn-primary text-option-edit " >Edit</button>\
   <div class="btn-group">\
     <button type="button" class="btn btn-primary dropdown-toggle animatebutton " data-toggle="dropdown" >\
@@ -246,8 +271,8 @@ $(document).on('click', 'p, .list',function(e){
       <li><a href="#" class="advance_animate">Animantion Advanced Options</a></li>\
     </ul>\
   </div>\
-  <button type="button" class="btn btn-primary link-text">Hypertext<span class="caret"></span></button>\
-  <button type="button" class="btn btn-primary delete-option">Delete Element</button>\
+   <button type="button" class="btn btn-primary link-text">Hypertext<span class="caret"></span></button>\
+  <button type="button" class="btn btn-primary delete-option " >Delete Element</button>\
 </div>';
 $("body").append(button_group);
 $('.text-option-button').draggable({cancel:false});
@@ -259,9 +284,20 @@ $('.text-option-button').draggable({cancel:false});
 $(document).on('click', 'h2',function(e){
 		$(".just_clicked_animate").removeClass("just_clicked_animate");
 		$(this).addClass("just_clicked_animate");
+		var previous_previous_clicked_classname=previous_clicked_classname;
 
 		var forclass=($(this).closest('div').attr("class"));
 		previous_clicked_classname=forclass.substr(0,forclass.indexOf(' '));
+		if(previous_previous_clicked_classname!="-1"&&previous_previous_clicked_classname!=previous_clicked_classname)
+		{
+			text_option_button_data=false;
+	    	$(".button-option-button").remove();
+	    	$(".text-option-button").remove();
+	    	$(".text-option-edit2").remove();
+	    	$(".box-option-button").remove();
+	    	$(".box-option-edit2").remove();
+	    	
+		}
 				//alert(previous_clicked_classname);
 		var offset=$("."+previous_clicked_classname).offset();
 		var height=$("."+previous_clicked_classname).innerHeight();
@@ -278,7 +314,7 @@ $(document).on('click', 'h2',function(e){
       <li><a href="#" class="advance_animate">Animantion Advanced Options</a></li>\
     </ul>\
   </div>\
-    <button type="button" class="btn btn-primary link-text">Hypertext<span class="caret"></span></button>\
+   <button type="button" class="btn btn-primary link-text">Hypertext<span class="caret"></span></button>\
     <button type="button" class="btn btn-primary delete-option " >Delete Element</button>\
 </div>';
 $("body").append(button_group);
@@ -290,9 +326,20 @@ $('.text-option-button').draggable({cancel:false});
 $(document).on('click', 'h4',function(e){
 	$(".just_clicked_animate").removeClass("just_clicked_animate");
 	$(this).addClass("just_clicked_animate");
+	var previous_previous_clicked_classname=previous_clicked_classname;
 	
 		var forclass=($(this).closest('div').attr("class"));
 		previous_clicked_classname=forclass.substr(0,forclass.indexOf(' '));
+		if(previous_previous_clicked_classname!="-1"&&previous_previous_clicked_classname!=previous_clicked_classname)
+		{
+			text_option_button_data=false;
+	    	$(".button-option-button").remove();
+	    	$(".text-option-button").remove();
+	    	$(".text-option-edit2").remove();
+	    	$(".box-option-button").remove();
+	    	$(".box-option-edit2").remove();
+	    	
+		}
 		var offset=$("."+previous_clicked_classname).offset();
 		var height=$("."+previous_clicked_classname).innerHeight();
 		if(!text_option_button_data){
@@ -307,7 +354,7 @@ $(document).on('click', 'h4',function(e){
       <li><a href="#" class="advance_animate">Animantion Advanced Options</a></li>\
     </ul>\
   </div>\
-  <button type="button" class="btn btn-primary link-text">Hypertext<span class="caret"></span></button>\
+   <button type="button" class="btn btn-primary link-text">Hypertext<span class="caret"></span></button>\
     <button type="button" class="btn btn-primary delete-option " >Delete Element</button>\
 </div>';
 $("body").append(button_group);
@@ -316,7 +363,14 @@ $('.text-option-button').draggable({cancel:false});
 }
 //e.stopPropogation();
 
+	});
+
+$(document).on('click', '.delete-option',function(e){
+
+$('.'+previous_clicked_classname).remove();
+
 });
+
 
 function saveSelection() {
     if (window.getSelection) {
@@ -446,12 +500,6 @@ function link_to_text(){
     }
     dialoglite.dialog("close");
 }
-
-$(document).on('click', '.delete-option',function(e){
-
-$('.'+previous_clicked_classname).remove();
-
-});
 
 $(document).on('click', '.Font-Family-Times_New_Roman',function(e){
 	document.execCommand('fontName',false,"Times New Roman");
@@ -610,7 +658,7 @@ $(document).on('click', '.text-option-edit',function(e){
   </div>\
 \
   	<div class="btn-group">\
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">\
+    <button type="button" class="btn btn-primary dropdown-toggle Font_Size" data-toggle="dropdown">\
     Font-Size <span class="caret"></span></button>\
     <ul class="dropdown-menu" role="menu">\
       <li><a href="#" class="Font-Size-10px" style="font-size: 10px;">10 px</a></li>\
@@ -658,6 +706,353 @@ $(document).on('click',".text-option-edit-italics",function(){
 	document.execCommand('italic',false,null);});
 
 
+
+
+$(document).on('click', '.button-option-opacity',function(e){
+
+	$(".button-opacity-options").remove();
+
+var text='<input type="text" name="button_opacity" placeholder="Opacity :  '+$("."+previous_clicked_classname).find('[class*="btn"]').css("opacity")+'" class="button-option-opacity-select button-opacity-options" style="position:absolute;top:50px;width:100px;right:130px">	';
+
+$(".button-option-button").append(text);
+e.stopPropogation();
+
+});
+$(document).on('click', '.button-option-opacity-select',function(e){
+	 	e.stopPropogation();
+
+	});
+$(document).on('change', '.button-option-opacity-select',function(e){
+	var changed_opacity=$(".button-option-opacity-select").val();
+	$("."+previous_clicked_classname).find('[class*="btn"]').css("opacity",changed_opacity);	
+	 	e.stopPropogation();
+
+	});
+
+
+
+
+	$(document).on('click', '.button-option-background-color',function(){
+		$(".button-opacity-options").remove();
+	$(".button-option-button").remove();
+	var offset=$("."+previous_clicked_classname).offset();
+	var origcolor=$("."+previous_clicked_classname).find('[class*="btn"]').css("background-color");
+	origcolor=rgb2hex(origcolor);
+ 	var text='<input type="color" value="'+origcolor+'" class="button-option-background-color-select" style="position:absolute;top:'+ (+offset.top - +"40") +'px;left:'+ (+offset.left - +"50") +'px;">';
+ 	$("body").append(text);
+ 	e.preventDefault();
+ 	e.stopPropogation();
+
+ });
+$(document).on('change', '.button-option-background-color-select',function(){
+		text_option_button_data=false;
+	var colorvalue=$(".button-option-background-color-select").val();
+	$("."+previous_clicked_classname).find('[class*="btn"]').css("background-color",colorvalue);
+	$(".button-option-background-color-select").remove();
+	e.preventDefault();
+ 	e.stopPropogation();
+
+});
+$(document).on('click', '.button-option-background-color-select',function(e){
+	//e.preventDefault();
+ 	e.stopPropogation();
+
+});
+
+
+$(document).on('click', '.button-option-color',function(){
+		$(".button-opacity-options").remove();
+	$(".button-option-button").remove();
+	var offset=$("."+previous_clicked_classname).offset();
+	var origcolor=$("."+previous_clicked_classname).find('[class*="btn"]').css("color");
+	origcolor=rgb2hex(origcolor);
+ 	var text='<input type="color" value="'+origcolor+'" class="button-option-color-select" style="position:absolute;top:'+ (+offset.top - +"40") +'px;left:'+ (+offset.left - +"50") +'px;">';
+ 	$("body").append(text);
+ 	e.preventDefault();
+ 	e.stopPropogation();
+
+ });
+$(document).on('change', '.button-option-color-select',function(){
+		text_option_button_data=false;
+	var colorvalue=$(".button-option-color-select").val();
+	$("."+previous_clicked_classname).find('[class*="btn"]').css("color",colorvalue);
+	$(".button-option-color-select").remove();
+	e.preventDefault();
+ 	e.stopPropogation();
+
+});
+$(document).on('click', '.button-option-color-select',function(e){
+	//e.preventDefault();
+ 	e.stopPropogation();
+
+});
+
+
+
+
+$(document).on('click',".DangerButton , .WarningButton , .SuccessButton , .InfoButton , .PrimaryButton , .DefaultButton",function(){
+	
+	$(".just_clicked_animate").removeClass("just_clicked_animate");
+		$(this).addClass("just_clicked_animate");
+		var previous_previous_clicked_classname=previous_clicked_classname;
+		
+	var forclass=($(this).closest('div').parent().parent().attr("class"));
+		previous_clicked_classname=forclass.substr(0,forclass.indexOf(' '));
+		if(previous_previous_clicked_classname!="-1"&&previous_previous_clicked_classname!=previous_clicked_classname)
+		{
+			text_option_button_data=false;
+	    	$(".button-option-button").remove();
+	    	$(".text-option-button").remove();
+	    	$(".text-option-edit2").remove();
+	    	$(".box-option-button").remove();
+	    	$(".box-option-edit2").remove();
+	    	
+		}
+		var offset=$("."+previous_clicked_classname).offset();
+		var height=$("."+previous_clicked_classname).innerHeight();
+			
+		//alert( +offset.top + +"40");
+		if(!text_option_button_data){
+			text_option_button_data=true;
+		var button_group='<div class="btn-group button-option-button draggable" style="opacity:0.9;position:absolute;top:'+ (+offset.top + +"20" + +height) +'px;left:'+ (+offset.left - +"50") +'px;">\
+  <button type="button" class="btn btn-primary button-option-background-color " >Background-Color</button>\
+  <button type="button" class="btn btn-primary button-option-color " >Font-Color</button>\
+      <button type="button" class="btn btn-primary button-option-opacity " >Opacity<span class="caret"></span></button>\
+  <button type="button" class="btn btn-primary link-box">HyperLink<span class="caret"></span></button>\
+   <div class="btn-group">\
+    <button type="button" class="btn btn-primary dropdown-toggle animatebutton " data-toggle="dropdown" >\
+    Animate <span class="caret"></span></button>\
+    <ul class="dropdown-menu" role="menu">\
+      <li><a href="#" class="animate_type">Animation Types</a></li>\
+      <li><a href="#" class="advance_animate">Animantion Advanced Options</a></li>\
+    </ul>\
+  </div>\
+  <button type="button" class="btn btn-primary delete-option " >Delete Element</button>\
+</div>';
+$("body").append(button_group);
+//$('.text-option-button').draggable({cancel:false});
+
+}
+e.preventDefault();
+//e.stopPropogation();
+
+});
+
+
+
+	$('.Default').click(function(){
+		$(this).data=('clicked',true);
+		x=x+50;
+		y=y+50;
+		mm=mm+1;
+	});
+
+	$('.Default').mouseenter(function(){
+		
+	var Button_text='<div  class="'+mm+'" style="position:absolute; top:'+y+'px;left:'+x+'px;"><a style="display:block;height:70px;width:110px;text-decoration:none;" href="#" class="boxanchor"><button type="button" contenteditable=tRuE class="btn btn-default DefaultButton" style="height:100%;width:100%;">Default</button></a>'+
+	'<a class="duplicate-box-anchor" href="#"></a></div>';
+	$("body").append(Button_text);
+	$(".DefaultButton").draggable({cancel:false}).resizable();
+	$("."+mm).draggable({cancel:'.DefaultButton'});
+	//$(".ui-wrapper").css("padding-bottom","1px");
+	//$(".ui-wrapper").css("padding-right","0px");
+	//$(".DefaultButton").css("width","70px");
+	//$(".DefaultButton").css("height","35px");
+	//$(".ui-wrapper").css("width","96px");
+	//$(".ui-wrapper").css("height","50px");
+
+	});
+
+	$('.Default').mouseleave(function(){
+	if($('.Default').data('clicked'))
+	{
+		$(this).data=('clicked',false);
+	}
+	else{
+	
+		$("."+mm).remove();
+
+	
+	}
+	});
+
+	$('.Primary').click(function(){
+		$(this).data=('clicked',true);
+		x=x+50;
+		y=y+50;
+		mm=mm+1;
+	});
+
+	$('.Primary').mouseenter(function(){
+		
+	var Button_text='<div class="'+mm+'" style="position:absolute; top:'+y+'px;left:'+x+'px;"><a style="display:block;height:70px;width:110px;text-decoration:none;" href="#" ><button type="button" contenteditable=tRuE class="btn btn-primary PrimaryButton" style="height:100%;width:100%;">Primary</button></a></div>';
+	$("body").append(Button_text);
+	$(".PrimaryButton").draggable({cancel: false}).resizable();
+	$("."+mm).draggable({cancel: ".PrimaryButton"});
+	//$(".ui-wrapper").css("padding-bottom","1px");
+	//$(".ui-wrapper").css("padding-right","0px");
+	//$(".PrimaryButton").css("width","70px");
+	//$(".PrimaryButton").css("height","35px");
+	//$(".ui-wrapper").css("width","96px");
+	//$(".ui-wrapper").css("height","50px");
+
+	});
+
+	$('.Primary').mouseleave(function(){
+	if($('.Primary').data('clicked'))
+	{
+		$(this).data=('clicked',false);
+	}
+	else{
+	
+		$("."+mm).remove();
+
+	
+	}
+	});
+//
+	$('.Success').click(function(){
+		$(this).data=('clicked',true);
+		x=x+50;
+		y=y+50;
+		mm=mm+1;
+	});
+
+	$('.Success').mouseenter(function(){
+		
+	var Button_text='<div class="'+mm+'" style="position:absolute;top:'+y+'px;left:'+x+'px;"><a style="display:block;height:70px;width:110px;text-decoration:none;" href="#" ><button type="button" contenteditable=tRuE class="btn btn-success SuccessButton" style="height:100%;width:100%;">Success</button></a></div>';
+	$("body").append(Button_text);
+	$(".SuccessButton").draggable({cancel: false}).resizable();
+	$("."+mm).draggable({cancel: ".SuccessButton"});
+	/*$(".ui-wrapper").css("padding-bottom","1px");
+	$(".ui-wrapper").css("padding-right","0px");
+	$(".SuccessButton").css("width","70px");
+	$(".SuccessButton").css("height","35px");
+	$(".ui-wrapper").css("width","96px");
+	$(".ui-wrapper").css("height","50px");*/
+
+	});
+
+	$('.Success').mouseleave(function(){
+	if($('.Success').data('clicked'))
+	{
+		$(this).data=('clicked',false);
+	}
+	else{
+	
+		$("."+mm).remove();
+
+	
+	}
+	});
+//
+	$('.Info').click(function(){
+		$(this).data=('clicked',true);
+		x=x+50;
+		y=y+50;
+		mm=mm+1;
+	});
+
+	$('.Info').mouseenter(function(){
+		
+	var Button_text='<div class="'+mm+'" style="position:absolute;top:'+y+'px;left:'+x+'px;"><a style="display:block;height:70px;width:110px;text-decoration:none;" href="#" ><button type="button" contenteditable=tRuE class="btn btn-info InfoButton" style="height:100%;width:100%;">Info</button></a></div>';
+	$("body").append(Button_text);
+	$(".InfoButton").draggable({cancel: false}).resizable();
+	$("."+mm).draggable({cancel: ".InfoButton"});
+	/*$(".ui-wrapper").css("padding-bottom","1px");
+	$(".ui-wrapper").css("padding-right","0px");
+	$(".InfoButton").css("width","70px");
+	$(".InfoButton").css("height","35px");
+	$(".ui-wrapper").css("width","96px");
+	$(".ui-wrapper").css("height","50px");*/
+
+	});
+
+	$('.Info').mouseleave(function(){
+	if($('.Info').data('clicked'))
+	{
+		$(this).data=('clicked',false);
+	}
+	else{
+	
+		$("."+mm).remove();
+
+	
+	}
+	});
+//	
+
+	$('.Warning').click(function(){
+		$(this).data=('clicked',true);
+		x=x+50;
+		y=y+50;
+		mm=mm+1;
+	});
+
+	$('.Warning').mouseenter(function(){
+		
+	var Button_text='<div class="'+mm+'" style="position:absolute;top:'+y+'px;left:'+x+'px;"><a style="display:block;height:70px;width:110px;text-decoration:none;" href="#" ><button type="button" contenteditable=tRuE class="btn btn-warning WarningButton" style="height:100%;width:100%;">Warning</button></a></div>';
+	$("body").append(Button_text);
+	$(".WarningButton").draggable({cancel: false}).resizable();
+	$("."+mm).draggable({cancel: ".WarningButton"});
+	/*$(".ui-wrapper").css("padding-bottom","1px");
+	$(".ui-wrapper").css("padding-right","0px");
+	$(".WarningButton").css("width","70px");
+	$(".WarningButton").css("height","35px");
+	$(".ui-wrapper").css("width","96px");
+	$(".ui-wrapper").css("height","50px");*/
+
+	});
+
+	$('.Warning').mouseleave(function(){
+	if($('.Warning').data('clicked'))
+	{
+		$(this).data=('clicked',false);
+	}
+	else{
+	
+		$("."+mm).remove();
+
+	
+	}
+	});
+//
+	$('.Danger').click(function(){
+		$(this).data=('clicked',true);
+		x=x+50;
+		y=y+50;
+		mm=mm+1;
+	});
+
+	$('.Danger').mouseenter(function(){
+		
+	var Button_text='<div class="'+mm+' dangerButton" style="position:absolute;top:'+y+'px;left:'+x+'px;"><a style="display:block;height:70px;width:110px;text-decoration:none;" href="#" ><button type="button" contenteditable=tRuE class="btn btn-danger DangerButton" style="height:100%;width:100%;">Danger</button></a></div>';
+	$("body").append(Button_text);
+	$(".DangerButton").draggable({cancel: false}).resizable();
+	$("."+mm).draggable({cancel: ".DangerButton"});
+	/*$(".ui-wrapper").css("padding-bottom","1px");
+	$(".ui-wrapper").css("padding-right","0px");
+	$(".DangerButton").css("width","70px");
+	$(".DangerButton").css("height","35px");
+	$(".ui-wrapper").css("width","96px");
+	$(".ui-wrapper").css("height","50px");*/
+
+	});
+
+	$('.Danger').mouseleave(function(){
+	if($('.Danger').data('clicked'))
+	{
+		$(this).data=('clicked',false);
+	}
+	else{
+	
+		$("."+mm).remove();
+
+	
+	}
+	});
+
+
 	$('.Bullet').click(function(){
 		$(this).data=('clicked',true);
 		x=x+50;
@@ -667,7 +1062,7 @@ $(document).on('click',".text-option-edit-italics",function(){
 
 	$('.Bullet').mouseenter(function(){
 		
-			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;top:'+y+'px;left:'+x+'px;"><ul>\
+			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;border:.5px solid bLuE;top:'+y+'px;left:'+x+'px;"><ul>\
   <li>First item</li>\
   <li>Second item</li>\
   <li>Third item</li>\
@@ -699,7 +1094,7 @@ $(document).on('click',".text-option-edit-italics",function(){
 
 	$('.Numbered').mouseenter(function(){
 		
-			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;top:'+y+'px;left:'+x+'px;"><ol type="1">\
+			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;border:.5px solid bLuE;top:'+y+'px;left:'+x+'px;"><ol type="1">\
   <li>First item</li>\
   <li>Second item</li>\
   <li>Third item</li>\
@@ -731,7 +1126,7 @@ $(document).on('click',".text-option-edit-italics",function(){
 
 	$('.Disc').mouseenter(function(){
 		
-			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;top:'+y+'px;left:'+x+'px;"><ul style="list-style-type:circle">\
+			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;border:.5px solid bLuE;top:'+y+'px;left:'+x+'px;"><ul style="list-style-type:circle">\
   <li>First item</li>\
   <li>Second item</li>\
   <li>Third item</li>\
@@ -763,7 +1158,7 @@ $(document).on('click',".text-option-edit-italics",function(){
 
 	$('.Roman').mouseenter(function(){
 		
-			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;top:'+y+'px;left:'+x+'px;"><ol type="I">\
+			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;border:.5px solid bLuE;top:'+y+'px;left:'+x+'px;"><ol type="I">\
   <li>First item</li>\
   <li>Second item</li>\
   <li>Third item</li>\
@@ -795,7 +1190,7 @@ $(document).on('click',".text-option-edit-italics",function(){
 
 	$('.Unordered').mouseenter(function(){
 		
-			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute;top:'+y+'px;left:'+x+'px;"><ul style="list-style-type:none">\
+			var Bullet_text='<div class="'+mm+' list" contenteditable=tRuE style="position:absolute; border:.5px solid bLuE;top:'+y+'px;left:'+x+'px;"><ul style="list-style-type:none">\
   <li>First item</li>\
   <li>Second item</li>\
   <li>Third item</li>\
@@ -817,7 +1212,50 @@ $(document).on('click',".text-option-edit-italics",function(){
 	}
 	});
 	
-
+var dialogl3=$(".modal_inputs_for_box_hyper").dialog({
+	autoOpen:false,
+	show:{
+		effect:"blind",
+		duration:1000
+	},
+	hide:{
+		effect:'explode',
+		duration:1000
+	},
+	width:350,
+	height:350,
+	modal:true,
+	buttons:{
+		//"OK":function(e){
+			//e.preventDefault();
+			//link_to_urlimage();
+		//}
+		Cancel:function(){
+			dialogl3.dialog("close");
+		}
+	},
+	close:function(){
+		forml3[0].reset();
+		$('.duplicate-box-anchor').removeClass('just_clicked_for_hyper');
+	}
+});
+var forml3=dialogl3.find("form").on('submit',function(e){
+	e.preventDefault();
+	link_to_box();
+});
+$(document).on('click','.link-box',function(e){
+	$('.'+previous_clicked_classname).children('.duplicate-box-anchor').addClass('just_clicked_for_hyper')
+	dialogl3.dialog("open");
+	e.stopPropogation();
+});
+function link_to_box(){
+	if($('.url-for-box-hyper').val()!=""){
+		$('.just_clicked_for_hyper').attr('href',$('.url-for-box-hyper').val());
+	}
+	$('.just_clicked_for_hyper').attr('target',$('input[name="target_box"]:checked').val());
+	$('.duplicate-box-anchor').removeClass('just_clicked_for_hyper');
+	dialogl3.dialog("close");
+}
 
 	$(document).on('click', '.box-option-edit-border',function(e){
 
@@ -1146,8 +1584,20 @@ $(document).on('click', '.rectangular-box',function(e){
 		
 		$(".just_clicked_animate").removeClass("just_clicked_animate");
 		$(this).addClass("just_clicked_animate");
+		var previous_previous_clicked_classname=previous_clicked_classname;
+
 		var forclass=($(this).closest('div').attr("class"));
 		previous_clicked_classname=forclass.substr(0,forclass.indexOf(' '));
+		if(previous_previous_clicked_classname!="-1"&&previous_previous_clicked_classname!=previous_clicked_classname)
+		{
+			text_option_button_data=false;
+	    	$(".button-option-button").remove();
+	    	$(".text-option-button").remove();
+	    	$(".text-option-edit2").remove();
+	    	$(".box-option-button").remove();
+	    	$(".box-option-edit2").remove();
+	    	
+		}
 		var offset=$("."+previous_clicked_classname).offset();
 		//alert($("."+previous_clicked_classname).innerHeight());
 		var height=$("."+previous_clicked_classname).innerHeight();
@@ -1159,77 +1609,39 @@ $(document).on('click', '.rectangular-box',function(e){
 		var button_group='<div class="btn-group box-option-button draggable" style="opacity:0.9;position:absolute;top:'+ (+offset.top + +"20" + +height) +'px;left:'+ (+offset.left - +"100") +'px;">\
   <button type="button" class="btn btn-primary box-option-edit " >Edit</button>\
   <div class="btn-group">\
-    <button type="button" class="btn btn-primary dropdown-toggle animatebutton" data-toggle="dropdown" >\
+    <button type="button" class="btn btn-primary dropdown-toggle animatebutton " data-toggle="dropdown" >\
     Animate <span class="caret"></span></button>\
     <ul class="dropdown-menu" role="menu">\
       <li><a href="#" class="animate_type">Animation Types</a></li>\
       <li><a href="#" class="advance_animate">Animantion Advanced Options</a></li>\
     </ul>\
   </div>\
-  <button type="button" class="btn btn-primary link-box">Hyperlink<span class="caret"></span></button>\
-  <button type="button" class="btn btn-primary delete-option">Delete Element</button>\
+  <button type="button" class="btn btn-primary link-box">HyperLink<span class="caret"></span></button>\
+  <button type="button" class="btn btn-primary delete-option " >Delete Element</button>\
 </div>';
 $("body").append(button_group);
 $('.box-option-button').draggable({cancel:false});
 
 }
+e.preventDefault();
 //e.stopPropogation();
-
-	});
+});
 
 var isAdvancedOption=false;
 
 $(document).on('click', '.animatebutton',function(e){
 	e.stopPropogation();
 });
-
-var dialogl3=$(".modal_inputs_for_box_hyper").dialog({
-	autoOpen:false,
-	show:{
-		effect:"blind",
-		duration:1000
-	},
-	hide:{
-		effect:'explode',
-		duration:1000
-	},
-	width:350,
-	height:350,
-	modal:true,
-	buttons:{
-		//"OK":function(e){
-			//e.preventDefault();
-			//link_to_urlimage();
-		//}
-		Cancel:function(){
-			dialogl3.dialog("close");
-		}
-	},
-	close:function(){
-		forml3[0].reset();
-		$('.duplicate-box-anchor').removeClass('just_clicked_for_hyper');
-	}
-});
-var forml3=dialogl3.find("form").on('submit',function(e){
-	e.preventDefault();
-	link_to_box();
-});
-$(document).on('click','.link-box',function(e){
-	//$(this).parent().siblings('.duplicate-icon-anchor').addClass('just_clicked_for_hyperic');
-	alert(previous_clicked_classname);$('.'+previous_clicked_classname).children('.duplicate-box-anchor').addClass('just_clicked_for_hyper')
-	dialogl3.dialog("open");
+$(document).on('click', '.Font_Size',function(e){
 	e.stopPropogation();
 });
-function link_to_box(){
-	if($('.url-for-box-hyper').val()!=""){
-		$('.just_clicked_for_hyper').attr('href',$('.url-for-box-hyper').val());
-	}
-	$('.just_clicked_for_hyper').attr('target',$('input[name="target_box"]:checked').val());
-	$('.duplicate-box-anchor').removeClass('just_clicked_for_hyper');
-	dialogl3.dialog("close");
-}
+$(document).on('click', '.Font-Family',function(e){
+	e.stopPropogation();
+});
 
-$.fn.extend({
+
+
+/*$.fn.extend({
     animateCss: function (animationName) {
     	//alert(isAdvancedOption);
         	if(isAdvancedOption)
@@ -1252,7 +1664,7 @@ $.fn.extend({
         });
     }
 });
-
+*/
 
 
 
@@ -1286,9 +1698,9 @@ isAdvancedOption=false;
 e.stopPropogation();
 
 
-});
+});*/
 
-
+/*
 $(document).on('click', '.animation-advanced-options-once-select',function(e){
 	 	e.stopPropogation();
 
@@ -1359,11 +1771,6 @@ $(document).on('change', '.animation-advanced-options-iteration-select',function
 	e.stopPropogation();
 });
 */
-
-
-
-
-
 
 /*$(document).on('click', '.animate-option',function(e){
 //alert("cd");
@@ -1710,8 +2117,8 @@ $(document).on('click', '.jello',function(e){
 	});
 */
 
-
-/*$(window).scroll(function() {
+/*
+$(window).scroll(function() {
 			//alert("vs");
 
 		$('.isAnnimated').each(function(){
@@ -1744,8 +2151,8 @@ if(($(this).hasClass('animationOnlyOnce') && !$(this).data('hasAnimationHappened
 			}
 		});
 	});
-
 */
+
 	$('.Rectangular-Box').click(function(){
 		$(this).data=('clicked',true);
 		x=x+50;
@@ -1758,7 +2165,7 @@ if(($(this).hasClass('animationOnlyOnce') && !$(this).data('hasAnimationHappened
 
     	$(".text-option-button").remove();
     	$(".text-option-edit2").remove();
-			var box='<div class="'+mm+' rectangular-box" contenteditable=false style="height:50px;width:75px;cursor:move; position:absolute;top:'+y+'px;left:'+x+'px;border-style: solid;border-width: 2px;opacity:1;box-shadow: 0px 0px 0px 0px;"><a class="boxanchor" href="#" style="display:block;height:100%;width:100%;"></a>'+
+			var box='<div class="'+mm+' rectangular-box" contenteditable=false style=" cursor:move; position:absolute;top:'+y+'px;left:'+x+'px;height:50px;width:75px; border-style: solid;border-width: 2px;opacity:1;box-shadow: 0px 0px 0px 0px;"><a class="boxanchor" href="#" style="display:block; height:100%;width:100%;"></a>'+
 			'<a href="#" class="duplicate-box-anchor"></a></div>';
 	$("body").append(box);
 	$("."+mm).draggable().resizable();
@@ -1797,10 +2204,11 @@ function myFunction(){
 		while(k<lengt){
 			$($('.iconanchor')[k]).attr({
 				'href':$('.iconanchor').eq(k).siblings('.duplicate-anchor').attr('href'),
-				'target':$('.iconanchor').eq(k).siblings('.duplicate-anchor').attr('target')//////////////////changed
+				'target':$('.duplicate-icon-anchor').eq(k).siblings('.duplicate-anchor').attr('target')
 			});
 			k++;
 		}
+
 		var length=$('.boxanchor').length,j=0;
 		while(j<length){
 			$($('.boxanchor')[j]).attr({
@@ -1808,11 +2216,17 @@ function myFunction(){
 				'target':$('.boxanchor').eq(j).siblings('.duplicate-box-anchor').attr('target')//////////////////added
 			});
 			$('.boxanchor').eq(j).css({
-				"height":$(this).parent().css("height"),
-				"width":$(this).parent().css("width")
+				'height':$(".boxanchor").eq(j).parent().css("height"),
+				'width':$(".boxanchor").eq(j).parent().css("width")
 			});
 			j++;
 		}
+
+		$('.isAnnimated').each(function(){
+
+			$(this).addClass($(this).data('animation_name')+'Selected');
+
+		});
     	
 document.getElementById("success").value=document.getElementById("body").innerHTML;document.getElementById("hidform").submit();}
 
@@ -1838,9 +2252,9 @@ function del(){
 
 function preView(){ 
   
-	$(".text-option-edit2").remove();
- $(".box-option-button").remove();
- $(".box-option-edit2").remove();
+//$(".text-option-edit2").remove();
+//$(".box-option-button").remove();
+//$(".box-option-edit2").remove();
 
  document.getElementById("modal").style.display="block";
 	document.getElementById("modal").innerHTML="<p class='modal-content'><span class='modal-title'>Webified</span><br><span class='modal-heading'></span><br>You will now be shown the way page will appear after saving...<br><br><span onclick='view()' cursor='auto' style=' text-decoration:none; width:150px; display:inline-block;color:green;font-size: 25px' class='glyphicon glyphicon-ok'></span><span onclick='removeBox()' style='display: inline-block;color:red;width:150px; font-size:25px' class='glyphicon glyphicon-remove'></span><br><br></p></div>";
@@ -1895,7 +2309,3 @@ function css2json(css) {
     return s;
 }
 
-
-function info(){
-document.getElementById("modal").innerHTML="<p class='modal-content'><span class='modal-title'>Webified</span><br><span class='modal-heading'>Are you Sure?</span><br>This page WILL be deleted now and you will be redirected to home page<br><br><span onclick='delFinal();' cursor='auto' style=' text-decoration:none; width:150px; display:inline-block;color:green;font-size: 25px' class='glyphicon glyphicon-ok'></span><span onclick='removeBox()' style='display: inline-block;color:red;width:150px; font-size:25px' class='glyphicon glyphicon-remove'></span><br><br></p></div>";
-}
